@@ -22,13 +22,3 @@ export default () => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  }
-})
