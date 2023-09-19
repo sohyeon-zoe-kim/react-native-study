@@ -6,6 +6,7 @@ import Margin from './Margin'
 export default (props) => {
   const insets = useSafeAreaInsets()
 
+  if (!props.isOpened) return null
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: insets.bottom }}>
       {props.data.map((item, index) => (
