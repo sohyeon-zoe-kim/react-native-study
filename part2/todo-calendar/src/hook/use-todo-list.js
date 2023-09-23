@@ -57,12 +57,15 @@ export const useTodoList = (selectedDate) => {
     setTodoList(newTodoList)
   }
 
+  const resetInpu = () => setInput('')
+
   return {
     todoList,
     addTodo,
     removeTodo,
     toggleTodo,
     input,
-    setInput
+    setInput,
+    resetInpu
   }
 }

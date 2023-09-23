@@ -42,8 +42,8 @@ const ArrowButon = ({ onPress, iconName }) => {
 
 export default ({
   selectedDate,
-  onpressLeftArrow,
-  onpressRightArrow,
+  onPressLeftArrow,
+  onPressRightArrow,
   onPressHeaderDate,
   onPressDate,
   columns
@@ -53,11 +53,11 @@ export default ({
     return (
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <ArrowButon iconName='arrow-left' onPress={onpressLeftArrow} />
+          <ArrowButon iconName='arrow-left' onPress={onPressLeftArrow} />
           <TouchableOpacity onPress={onPressHeaderDate}>
             <Text style={{ fontSize: 20, color: '#404040' }}>{currentDateText}</Text>
           </TouchableOpacity>
-          <ArrowButon iconName='arrow-right' onPress={onpressRightArrow} />
+          <ArrowButon iconName='arrow-right' onPress={onPressRightArrow} />
         </View>
         <View style={{ flexDirection: 'row' }}>
           {[0, 1, 2, 3, 4, 5, 6].map(day => {

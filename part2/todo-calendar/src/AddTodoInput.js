@@ -8,7 +8,9 @@ export default ({
   value,
   onChangeText,
   placeholder,
-  onPressAdd
+  onPressAdd,
+  onSubmitEditing,
+  onFocus
 }) => {
   return (
     <View style={{ width: ITEM_WIDTH, flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
@@ -21,6 +23,9 @@ export default ({
           padding: 5,
           color: '#595959'
         }}
+        onSubmitEditing={onSubmitEditing}
+        blurOnSubmit={false}
+        onFocus={onFocus}
       />
       <TouchableOpacity style={{ padding: 5 }} onPress={onPressAdd}>
         <AntDesign name="plus" size={18} color='#595959' />
