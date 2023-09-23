@@ -58,8 +58,11 @@ export const useTodoList = (selectedDate) => {
   }
 
   return {
+    todoList,
     addTodo,
     removeTodo,
-    toggleTodo
+    toggleTodo,
+    input,
+    setInput
   }
 }
