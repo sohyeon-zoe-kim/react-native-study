@@ -96,7 +96,16 @@ export default function App() {
           borderColor: '#a6a6a6'
         }}
       >
-        <Text style={{ flex: 1, fontSize: 14, color: '#595959' }}>{todo.content}</Text>
+        <Text
+          style={{
+            flex: 1,
+            fontSize: 14,
+            color: '#595959',
+            textDecorationLine: isSuccess ? 'line-through' : 'none'
+          }}
+        >
+          {todo.content}
+        </Text>
         <Ionicons
           name="ios-checkmark"
           size={17}
