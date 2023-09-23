@@ -25,13 +25,13 @@ export default function App() {
     setSelectedDate,
   } = useCalendar(now)
   const {
-    todoList,
+    filteredTodoList,
     addTodo,
     removeTodo,
     toggleTodo,
     input,
     setInput,
-    resetInpu
+    resetInput
   } = useTodoList(selectedDate)
   const columns = getCalendarColumns(selectedDate)
   const flatListRef = useRef(null);
@@ -112,13 +112,13 @@ export default function App() {
 
   const onPressAdd = () => {
     addTodo()
-    resetInpu()
+    resetInput()
     scrollToEnd()
   }
 
   const onSubmitEditing = () => {
     addTodo()
-    resetInpu()
+    resetInput()
     scrollToEnd()
   }
 
@@ -147,7 +147,7 @@ export default function App() {
             <>
               <FlatList
                 ref={flatListRef}
-                data={todoList}
+                data={filteredTodoList}
                 style={{ flex: 1 }}
                 ListHeaderComponent={ListHeaderComponent}
                 renderItem={renderItem}
