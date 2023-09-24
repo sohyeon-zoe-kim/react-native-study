@@ -1,7 +1,39 @@
 import { View, Text, TouchableOpacity } from "react-native"
 import { SimpleLineIcons } from '@expo/vector-icons'
+import styled from 'styled-components/native'
 
 const headerHeight = 50
+
+const Header = styled.TouchableOpacity`
+  height: ${headerHeight}px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`
+const SelectedAlbumTitle = styled.Text`
+font-weight: bold;
+`
+const AddAlbumButton = styled.TouchableOpacity`
+  position: absolute;
+  height: ${headerHeight}px;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+`
+const DropdownContainer = styled.View`
+  position: absolute;
+  top: ${headerHeight}px;
+  width: 100%;
+  border: 1px solid lightgrey;
+`
+const AlbumItem = styled.TouchableOpacity`
+  padding: 12px 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+`
 
 export default ({
   selectedAlbum,
@@ -14,70 +46,34 @@ export default ({
 }) => {
   return (
     <View>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={onPressHeader}
-        style={{
-          height: headerHeight,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-        }}
-      >
-        <Text style={{ fontWeight: 'bold' }}>{selectedAlbum.title}</Text>
+      <Header activeOpacity={1} onPress={onPressHeader} >
+        <SelectedAlbumTitle>{selectedAlbum.title}</SelectedAlbumTitle>
         <SimpleLineIcons
           name={isDropdownOpen ? 'arrow-up' : 'arrow-down'}
           size={12}
           color='black'
           style={{ marginLeft: 8 }}
         />
-        <TouchableOpacity
-          onPress={onPressAddAlbum}
-          style={{
-            position: 'absolute',
-            height: headerHeight,
-            right: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}
-        >
+        <AddAlbumButton onPress={onPressAddAlbum}>
           <Text style={{ fontSize: 12 }}>앨범 추가</Text>
-        </TouchableOpacity>
-      </TouchableOpacity>
+        </AddAlbumButton>
+      </Header>
       {isDropdownOpen && (
-        <View
-          style={{
-            position: 'absolute',
-            top: headerHeight,
-            width: '100%',
-            borderTopColor: 'lightgrey',
-            borderTopWidth: 1,
-            borderBottomColor: 'lightgrey',
-            borderBottomWidth: 1,
-          }}
-        >
+        <DropdownContainer>
           {albums.map((album, index) =>{
             const isSelectedAlbum = selectedAlbum.id === album.id
             return (
-              <TouchableOpacity
+              <AlbumItem
                 key={`album-${index}`}
                 activeOpacity={1}
-                style={{
-                  paddingVertical: 12,
-                  width: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#ffffff'
-                }}
                 onPress={() => onPressAlbum(album)}
                 onLongPress={() => onLongPressAlbum(album.id)}
               >
                 <Text style={{ fontWeight: isSelectedAlbum ? 'bold' : undefined }}>{album.title}</Text>
-              </TouchableOpacity>
+              </AlbumItem>
             )
           })}
-        </View>
+        </DropdownContainer>
       )}
     </View>
   )

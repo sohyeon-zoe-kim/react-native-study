@@ -1,10 +1,27 @@
-import { Image, Text, Dimensions, FlatList, TouchableOpacity } from "react-native"
+import { Dimensions, FlatList, TouchableOpacity } from "react-native"
+import styled from 'styled-components/native'
 
 const width = Dimensions.get('screen').width
 const minColumSize = width >= 500 ? 200 : 130
 const divisor = width / minColumSize
 const numColumns = Math.floor(divisor)
 const columnSize = width / numColumns
+
+const AddImageButton = styled.TouchableOpacity`
+  width: ${columnSize}px;
+  height: ${columnSize}px;
+  background-color: lightgrey;
+  justify-content: center;
+  align-items: center;
+`
+const Image = styled.Image`
+  width: ${columnSize}px;
+  height: ${columnSize}px;
+`
+const AddImageButtonText = styled.Text`
+  font-weight: 100;
+  font-size: 45px;
+`
 
 export default ({
   imageWithAddButton,
@@ -16,18 +33,9 @@ export default ({
     const { id, uri } = image
     if (id === -1) {
       return (
-        <TouchableOpacity
-          onPress={onPressOpenGallery}
-          style={{
-            width: columnSize,
-            height: columnSize,
-            backgroundColor: 'lightgrey',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontWeight: '100', fontSize: 45 }} >+</Text>
-        </TouchableOpacity>
+        <AddImageButton onPress={onPressOpenGallery}>
+          <AddImageButtonText>+</AddImageButtonText>
+        </AddImageButton>
       )
     }
 
@@ -36,10 +44,7 @@ export default ({
         onPress={() => onPressImage(image)}
         onLongPress={() => onLongPressImage(id)}
       >
-        <Image
-          source={{ uri }}
-          style={{ width: columnSize, height: columnSize }}
-        />
+        <Image source={{ uri }}/>
       </TouchableOpacity>
     )
   }

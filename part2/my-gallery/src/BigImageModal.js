@@ -1,23 +1,33 @@
-import { Modal, View, Image, Pressable, TouchableOpacity } from "react-native"
+import { Modal, View, Pressable, TouchableOpacity } from "react-native"
 import { SimpleLineIcons } from '@expo/vector-icons'
+import styled from 'styled-components/native'
+
+const ModalContainer = styled.Pressable`
+  flex: 1;
+  background-color: rgba(115, 115, 115, 0.5);
+  justify-content: center;
+  align-items: center;
+`
+const Image = styled.Image`
+  width: 280px;
+  height: 280px;
+  background-color: white;
+`
+const ImageContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+const Arrow = styled.TouchableOpacity`
+  height: 100%;
+  padding: 0 20px;
+  justify-content: center;
+`
 
 const ArrowButton = ({ iconName, onPress, disabled }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      style={{
-        height: '100%',
-        paddingHorizontal: 20,
-        justifyContent: 'center',
-      }}
-    >
-      <SimpleLineIcons
-        name={iconName}
-        size={12}
-        color={disabled ? 'transparent' : 'black'}
-      />
-    </TouchableOpacity>
+    <Arrow onPress={onPress} disabled={disabled}>
+      <SimpleLineIcons name={iconName} size={12} color={disabled ? 'transparent' : 'black'} />
+    </Arrow>
   )
 }
 
@@ -36,35 +46,23 @@ export default ({
       transparent={true}
       visible={modalVisible}
     >
-      <Pressable
-        onPress={onPressBackdrop}
-        style={{
-          flex: 1,
-          backgroundColor: `rgba(115, 115, 115, 0.5)`,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <ModalContainer onPress={onPressBackdrop}>
+        <ImageContainer>
           <ArrowButton
             iconName='arrow-left'
             onPress={onPressLeftArrow}
             disabled={!showPreviousArrow}
           />
           <Pressable>
-            <Image
-              source={{ uri: selectedImage?.uri }}
-              style={{ width: 280, height: 280, backgroundColor: 'white' }}
-              resizeMode="contain"
-            />
+            <Image source={{ uri: selectedImage?.uri }} resizeMode="contain" />
           </Pressable>
           <ArrowButton
             iconName='arrow-right'
             onPress={onPressRightArrow}
             disabled={!showNextArrow}
           />
-        </View>
-      </Pressable>
+        </ImageContainer>
+      </ModalContainer>
     </Modal>
   )
 }
