@@ -1,13 +1,11 @@
-import { StyleSheet, Text, Image, FlatList, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useGallery } from './src/use-gallery'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 import MyDropdownPicker from './src/MyDropdownPicker'
 import TextInputModal from './src/TextInputModal'
 import BigImageModal from './src/BigImageModal'
-
-const width = Dimensions.get('screen').width
-const columnSize = width / 3
+import ImageList from './src/ImageList'
 
 export default function App() {
   const {
@@ -84,38 +82,6 @@ export default function App() {
     moveToNextImage()
   }
 
-  const renderItem = ({ item: image, index }) => {
-    const { id, uri } = image
-    if (id === -1) {
-      return (
-        <TouchableOpacity
-          onPress={onPressOpenGallery}
-          style={{
-            width: columnSize,
-            height: columnSize,
-            backgroundColor: 'lightgrey',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontWeight: '100', fontSize: 45 }} >+</Text>
-        </TouchableOpacity>
-      )
-    }
-
-    return (
-      <TouchableOpacity
-        onPress={() => onPressImage(image)}
-        onLongPress={() => onLongPressImage(id)}
-      >
-        <Image
-          source={{ uri }}
-          style={{ width: columnSize, height: columnSize }}
-        />
-      </TouchableOpacity>
-    )
-  }
-
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -144,11 +110,11 @@ export default function App() {
           showPreviousArrow={showPreviousArrow}
           showNextArrow={showNextArrow}
         />
-        <FlatList
-          data={imageWithAddButton}
-          renderItem={renderItem}
-          numColumns={3}
-          style={{ zIndex: -1 }}
+        <ImageList
+          imageWithAddButton={imageWithAddButton}
+          onPressOpenGallery={onPressOpenGallery}
+          onPressImage={onPressImage}
+          onLongPressImage={onLongPressImage}
         />
       </SafeAreaView>
     </SafeAreaProvider>
