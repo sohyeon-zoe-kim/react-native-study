@@ -1,4 +1,4 @@
-import { Modal, TextInput, View, SafeAreaView, KeyboardAvoidingView, Platform, Pressable } from "react-native"
+import { Modal, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Pressable } from "react-native"
 
 export default ({
   modalVisible,
