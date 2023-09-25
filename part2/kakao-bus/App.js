@@ -3,11 +3,11 @@ import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } f
 import { SimpleLineIcons } from '@expo/vector-icons'
 import dayjs from 'dayjs';
 
-import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './src/data'
-import { COLOR } from './src/color';
-import BusInfo from './src/BusInfo'
-import Margin from './src/Margin';
-import BookmarkButton from './src/BookmarkButton';
+import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './modules/data'
+import { COLOR } from './modules/color';
+import BusInfo from './components/BusInfo'
+import Margin from './components/common/Margin';
+import BookmarkButton from './components/BookmarkButton';
 
 const busStopBoomarkSize = 20
 const busStopBookmarkHorizontal = 6
@@ -107,14 +107,14 @@ export default function App() {
   }
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   const newNow = dayjs()
-    //   setNow(newNow)
-    // }, 1000)
+    const interval = setInterval(() => {
+      const newNow = dayjs()
+      setNow(newNow)
+    }, 1000)
 
-    // return () => {
-    //   clearInterval(interval)
-    // }
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   return (

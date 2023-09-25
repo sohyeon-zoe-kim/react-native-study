@@ -1,17 +1,19 @@
 import { TouchableOpacity } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
-import { COLOR } from './color'
+import { COLOR } from '../modules/color'
 
 export default ({
+  size,
   onPress,
+  isBookmarked,
   style
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={style}>
       <Ionicons
-        name="alarm-outline"
-        size={24}
-        color={COLOR.GRAY_3}
+        name="star"
+        size={size}
+        color={isBookmarked ? COLOR.YELLOW : COLOR.GRAY_1}
       />
     </TouchableOpacity>
   )

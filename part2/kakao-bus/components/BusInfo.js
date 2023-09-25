@@ -1,6 +1,6 @@
 import { View, Text } from "react-native"
 import BookmarkButton from "./BookmarkButton"
-import { COLOR } from "./color"
+import { COLOR } from "../modules/color"
 import AlarmButton from "./AlarmButton"
 import NextBusInfo from "./NextBusInfo"
 
