@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons'
 import dayjs from 'dayjs';
 
@@ -21,6 +21,7 @@ const HeaderIconButton = ({ iconName }) => (
 export default function App() {
   const sections = getSections(busStop.buses)
   const [now, setNow] = useState(dayjs())
+  const [refreshing, setRefreshing] = useState(false)
 
   const onPressBusStopBookmark = () => {}
 
@@ -114,11 +115,24 @@ export default function App() {
     <Margin height={30} />
   )
 
+  const onRefresh = () => {
+    setRefreshing(true)
+  }
+  
+  useEffect(() => {
+    if (refreshing) {
+      setTimeout(() => {
+        setRefreshing(false)
+        setNow(dayjs())
+      }, 3000)
+    }
+  }, [refreshing])
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newNow = dayjs()
       setNow(newNow)
-    }, 1000)
+    }, 5000)
 
     return () => {
       clearInterval(interval)
@@ -150,6 +164,12 @@ export default function App() {
         renderSectionHeader={renderSectionHeader}
         ItemSeparatorComponent={ItemSeparatorComponent}
         ListFooterComponent={ListFooterComponent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
       >
       </SectionList>
     </View>
