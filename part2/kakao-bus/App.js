@@ -5,10 +5,24 @@ import BusInfo from './src/BusInfo'
 import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './src/data'
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { COLOR } from './src/color';
 
 export default function App() {
   const sections = getSections(busStop.buses)
   const [now, setNow] = useState(dayjs())
+
+  const renderSectionHeader = ({ section: { title }}) => (
+    <View style={{
+      paddingLeft: 13, 
+      paddingVertical: 3,
+      backgroundColor: COLOR.GRAY_1,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: COLOR.GRAY_2
+    }}>
+      <Text style={{ fontSize: 12, color: COLOR.GRAY_4 }}>{title}</Text>
+    </View>
+  )
   
   const renderItem = ({ item: bus }) => {
     const numColor = getBusNumColorByType(bus.type)
@@ -67,7 +81,7 @@ export default function App() {
           style={{ flex: 1, width: '100%'}}
           sections={sections}
           renderItem={renderItem}
-          renderSectionHeader={({ section: { title }}) => <Text>{title}</Text>}
+          renderSectionHeader={renderSectionHeader}
         >
         </SectionList>
       </SafeAreaView>
