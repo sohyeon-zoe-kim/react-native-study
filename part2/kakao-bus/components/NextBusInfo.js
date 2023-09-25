@@ -4,7 +4,7 @@ import { COLOR } from "../modules/utils/color"
 export default ({
   hasInfo,
   remainedTimeText,
-  numOfRemainedStos,
+  numOfRemainedStops,
   seatStatusText,
 }) => {
   if (!hasInfo) return <Text style={{ color: COLOR.GRAY_2 }}>도착 정보 없음</Text>
@@ -21,7 +21,7 @@ export default ({
           padding: 2,
         }}
       >
-        <Text style={{ color: COLOR.GRAY_3, marginRight: 3 }}>{numOfRemainedStos}번째전</Text>
+        <Text style={{ color: COLOR.GRAY_3, marginRight: 3 }}>{numOfRemainedStops}번째전</Text>
         <Text style={{ color: COLOR.CORAL }}>{seatStatusText}</Text>
       </View>
     </View>
