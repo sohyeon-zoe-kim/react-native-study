@@ -25,33 +25,34 @@ export default function App() {
   const onPressBusStopBookmark = () => {}
 
   const ListHeaderComponent = () => (
-    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_3, height: 250 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <HeaderIconButton iconName='arrow-left' />
-        <HeaderIconButton iconName='home' />
-      </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Margin height={10} />
-        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{busStop.id}</Text>
-        <Margin height={4} />
-        <Text style={{ color: COLOR.WHITE, fontSize: 20 }}>{busStop.name}</Text>
-        <Margin height={4} />
-        <Text style={{ color: COLOR.GRAY_1, fontSize: 14 }}>{busStop.directionDescription}</Text>
-        <Margin height={20} />
-        <BookmarkButton
-          size={busStopBoomarkSize}
-          isBookmarked={busStop.isBookmarked}
-          onPress={onPressBusStopBookmark}
-          style={{
-            borderWidth: 0.3,
-            borderColor: COLOR.GRAY_1,
-            borderRadius: (busStopBoomarkSize + busStopBookmarkHorizontal * 2)/2,
-            padding: busStopBookmarkHorizontal,
-          }}
-        />
-        <Margin height={25} />
-      </View>
-    </SafeAreaView>
+    <View
+      style={{
+        backgroundColor: COLOR.GRAY_3,
+        height: 170,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <Margin height={10} />
+      <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{busStop.id}</Text>
+      <Margin height={4} />
+      <Text style={{ color: COLOR.WHITE, fontSize: 20 }}>{busStop.name}</Text>
+      <Margin height={4} />
+      <Text style={{ color: COLOR.GRAY_1, fontSize: 14 }}>{busStop.directionDescription}</Text>
+      <Margin height={20} />
+      <BookmarkButton
+        size={busStopBoomarkSize}
+        isBookmarked={busStop.isBookmarked}
+        onPress={onPressBusStopBookmark}
+        style={{
+          borderWidth: 0.3,
+          borderColor: COLOR.GRAY_1,
+          borderRadius: (busStopBoomarkSize + busStopBookmarkHorizontal * 2)/2,
+          padding: busStopBookmarkHorizontal,
+        }}
+      />
+      <Margin height={25} />
+    </View>
   )
 
   const renderSectionHeader = ({ section: { title }}) => (
@@ -126,8 +127,23 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View style={{ width: '100%', backgroundColor: COLOR.GRAY_3 }}>
+        <SafeAreaView style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <HeaderIconButton iconName='arrow-left' />
+          <HeaderIconButton iconName='home' />
+        </SafeAreaView>
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: 500,
+            backgroundColor: COLOR.GRAY_3,
+            zIndex: -1
+          }}
+        />
+      </View>
       <SectionList
-        style={{ flex: 1, width: '100%'}}
+        style={{ flex: 1, width: '100%' }}
         sections={sections}
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
