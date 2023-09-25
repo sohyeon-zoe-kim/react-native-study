@@ -1,12 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SectionList, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+import BusInfo from './src/BusInfo'
+import { COLOR } from './src/color';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <BusInfo
+          isBookmarked={true}
+          onPressBookmark={() => {}}
+          num={146}
+          directionDescription='강남역.강남역사거리'
+          numColor={COLOR.BUS_B}
+        />
+        {/* <SectionList>
+        </SectionList> */}
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
