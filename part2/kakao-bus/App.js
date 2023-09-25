@@ -25,7 +25,7 @@ export default function App() {
   const onPressBusStopBookmark = () => {}
 
   const ListHeaderComponent = () => (
-    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_3 }}>
+    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_3, height: 250 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <HeaderIconButton iconName='arrow-left' />
         <HeaderIconButton iconName='home' />
@@ -106,6 +106,13 @@ export default function App() {
     )
   }
 
+  const ItemSeparatorComponent = () => (
+    <View style={{ width: '100%', height: 1, backgroundColor: COLOR.GRAY_1 }} />
+  )
+  const ListFooterComponent = () => (
+    <Margin height={30} />
+  )
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newNow = dayjs()
@@ -125,6 +132,8 @@ export default function App() {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        ListFooterComponent={ListFooterComponent}
       >
       </SectionList>
     </View>
