@@ -1,6 +1,6 @@
 import { TouchableOpacity } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
-import { COLOR } from '../modules/color'
+import { COLOR } from '../modules/utils/color'
 
 export default ({
   onPress,

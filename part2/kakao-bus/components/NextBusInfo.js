@@ -1,5 +1,5 @@
 import { View, Text } from "react-native"
-import { COLOR } from "../modules/color"
+import { COLOR } from "../modules/utils/color"
 
 export default ({
   hasInfo,

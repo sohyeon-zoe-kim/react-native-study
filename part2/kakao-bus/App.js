@@ -3,8 +3,8 @@ import { RefreshControl, SafeAreaView, SectionList, StyleSheet, Text, TouchableO
 import { SimpleLineIcons } from '@expo/vector-icons'
 import dayjs from 'dayjs';
 
-import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './modules/data'
-import { COLOR } from './modules/color';
+import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './modules/utils/data'
+import { COLOR } from './modules/utils/color';
 import BusInfo from './components/BusInfo'
 import Margin from './components/common/Margin';
 import BookmarkButton from './components/BookmarkButton';
