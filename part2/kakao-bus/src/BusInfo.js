@@ -8,8 +8,9 @@ export default ({
   isBookmarked,
   onPressBookmark,
   num,
+  numColor,
   directionDescription,
-  numColor
+  processedNextBusInfos
 }) => {
   return (
     <View style={{ flexDirection: 'row' }}>
@@ -26,7 +27,16 @@ export default ({
       </View>
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ flex: 1 }}>
-          <NextBusInfo
+          {processedNextBusInfos.map((info, index) => (
+            <NextBusInfo
+              key={`nextBusInfo-${index}`}
+              hasInfo={info.hasInfo}
+              remainedTimeText={info.remainedTimeText}
+              numOfRemainedStos={info.numOfRemainedStos}
+              seatStatusText={info.seatStatusText}
+            />
+          ))}
+          {/* <NextBusInfo
             hasInfo={true}
             remainedTimeText='8분 0초'
             numOfRemainedStos={5}
@@ -35,7 +45,7 @@ export default ({
           <NextBusInfo
             hasInfo={false}
             remainedTimeText='도착 정보 없음'
-          />
+          /> */}
         </View>
         <AlarmButton onPress={() => {}} style={{ paddingHorizontal: 15 }} />
       </View>
