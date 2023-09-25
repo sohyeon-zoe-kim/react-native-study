@@ -1,7 +1,7 @@
 ## SectionList
 - 2 depth의 형태를 가진 데이터를 UI로 그릴 때 유용하다.
 - 데이터 예시
-    ```json
+    ```jsx
     [
       {
         title: "간선버스",
