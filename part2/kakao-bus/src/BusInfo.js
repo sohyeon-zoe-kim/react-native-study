@@ -16,6 +16,7 @@ export default ({
     <View style={{ flexDirection: 'row' }}>
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <BookmarkButton
+          size={24}
           style={{ paddingHorizontal: 10 }}
           isBookmarked={isBookmarked}
           onPress={onPressBookmark}

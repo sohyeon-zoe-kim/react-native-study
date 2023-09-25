@@ -1,15 +1,58 @@
-import { SectionList, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
-import BusInfo from './src/BusInfo'
-import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './src/data'
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons'
+import dayjs from 'dayjs';
+
+import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './src/data'
 import { COLOR } from './src/color';
+import BusInfo from './src/BusInfo'
+import Margin from './src/Margin';
+import BookmarkButton from './src/BookmarkButton';
+
+const busStopBoomarkSize = 20
+const busStopBookmarkHorizontal = 6
+
+const HeaderIconButton = ({ iconName }) => (
+  <TouchableOpacity style={{ padding: 10 }}>
+    <SimpleLineIcons name={iconName} size={20} color={COLOR.WHITE} />
+  </TouchableOpacity>
+)
 
 export default function App() {
   const sections = getSections(busStop.buses)
   const [now, setNow] = useState(dayjs())
+
+  const onPressBusStopBookmark = () => {}
+
+  const ListHeaderComponent = () => (
+    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_3 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <HeaderIconButton iconName='arrow-left' />
+        <HeaderIconButton iconName='home' />
+      </View>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Margin height={10} />
+        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{busStop.id}</Text>
+        <Margin height={4} />
+        <Text style={{ color: COLOR.WHITE, fontSize: 20 }}>{busStop.name}</Text>
+        <Margin height={4} />
+        <Text style={{ color: COLOR.GRAY_1, fontSize: 14 }}>{busStop.directionDescription}</Text>
+        <Margin height={20} />
+        <BookmarkButton
+          size={busStopBoomarkSize}
+          isBookmarked={busStop.isBookmarked}
+          onPress={onPressBusStopBookmark}
+          style={{
+            borderWidth: 0.3,
+            borderColor: COLOR.GRAY_1,
+            borderRadius: (busStopBoomarkSize + busStopBookmarkHorizontal * 2)/2,
+            padding: busStopBookmarkHorizontal,
+          }}
+        />
+        <Margin height={25} />
+      </View>
+    </SafeAreaView>
+  )
 
   const renderSectionHeader = ({ section: { title }}) => (
     <View style={{
@@ -64,28 +107,27 @@ export default function App() {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newNow = dayjs()
-      setNow(newNow)
-    }, 1000)
+    // const interval = setInterval(() => {
+    //   const newNow = dayjs()
+    //   setNow(newNow)
+    // }, 1000)
 
-    return () => {
-      clearInterval(interval)
-    }
+    // return () => {
+    //   clearInterval(interval)
+    // }
   }, [])
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <SectionList
-          style={{ flex: 1, width: '100%'}}
-          sections={sections}
-          renderItem={renderItem}
-          renderSectionHeader={renderSectionHeader}
-        >
-        </SectionList>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <View style={styles.container}>
+      <SectionList
+        style={{ flex: 1, width: '100%'}}
+        sections={sections}
+        ListHeaderComponent={ListHeaderComponent}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+      >
+      </SectionList>
+    </View>
   );
 }
 

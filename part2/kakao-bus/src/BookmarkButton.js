@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { COLOR } from './color'
 
 export default ({
+  size,
   onPress,
   isBookmarked,
   style
@@ -11,7 +12,7 @@ export default ({
     <TouchableOpacity onPress={onPress} style={style}>
       <Ionicons
         name="star"
-        size={24}
+        size={size}
         color={isBookmarked ? COLOR.YELLOW : COLOR.GRAY_1}
       />
     </TouchableOpacity>
