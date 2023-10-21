@@ -9,13 +9,13 @@ export class ScreenA extends React.Component {
         <Button
           title='B스크린으로 이동하기'
           onPress={() => {
-            this.props.navigation.navigate('screenB', {value: 'fromA'})
+            this.props.navigation.navigate('ScreenB', {value: 'fromA'})
           }}
         />
         <Button
           title='C스크린으로 이동하기'
           onPress={() => {
-            this.props.navigation.navigate('NestedNavigator', {screen: 'ScreenC'})
+            this.props.navigation.navigate('ScreenC', {value: 'fromA'})
           }}
         />
       </View>
