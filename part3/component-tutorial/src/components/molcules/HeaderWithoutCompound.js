@@ -8,47 +8,90 @@ import { Typography } from "../atoms/Typography"
 
 const { width } = Dimensions.get('window')
 
-export class HeaderWithoutCompound extends React.Component {
-  render() {
-    return (
-      <SafeAreaInsetsContext.Consumer>
-        {insets => (
-          <View style={{ paddingTop: insets.top }}>
+// export class HeaderWithoutCompound extends React.Component {
+//   render() {
+//     return (
+//       <SafeAreaInsetsContext.Consumer>
+//         {insets => (
+//           <View style={{ paddingTop: insets.top }}>
+//             <View
+//               style={{
+//                 width: width,
+//                 height: 56,
+//                 flexDirection: 'row',
+//                 borderBottomColor: 'gray',
+//                 borderBottomWidth: 1,
+//               }}
+//             >
+//               <Spacer horizontal space={12} />
+//               <View
+//                 style={{
+//                   flex: 1,
+//                   flexDirection: 'row',
+//                   alignItems: 'center',
+//                   justifyContent: 'space-between',
+//                 }}
+//               >
+//                 {this.props.leftIcon && (
+//                   <Button onPress={this.props.leftIcon.onPress}>
+//                     <Icon name={this.props.leftIcon.iconName} size={28} />
+//                   </Button>
+//                 )}
+//                 <Typography fontSize={18}>{this.props.title}</Typography>
+//                 {this.props.rightIcon && (
+//                   <Button onPress={this.props.rightIcon.onPress}>
+//                     <Icon name={this.props.rightIcon.iconName} size={28} />
+//                   </Button>
+//                 )}
+//               </View>
+//               <Spacer horizontal space={12} />
+//             </View>
+//           </View>
+//         )}
+//       </SafeAreaInsetsContext.Consumer>
+//     )
+//   }
+// }
+
+export const HeaderWithoutCompound = (props) => {
+  return (
+    <SafeAreaInsetsContext.Consumer>
+      {insets => (
+        <View style={{ paddingTop: insets.top }}>
+          <View
+            style={{
+              width: width,
+              height: 56,
+              flexDirection: 'row',
+              borderBottomColor: 'gray',
+              borderBottomWidth: 1,
+            }}
+          >
+            <Spacer horizontal space={12} />
             <View
               style={{
-                width: width,
-                height: 56,
+                flex: 1,
                 flexDirection: 'row',
-                borderBottomColor: 'gray',
-                borderBottomWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
-              <Spacer horizontal space={12} />
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {this.props.leftIcon && (
-                  <Button onPress={this.props.leftIcon.onPress}>
-                    <Icon name={this.props.leftIcon.iconName} size={28} />
-                  </Button>
-                )}
-                <Typography fontSize={18}>{this.props.title}</Typography>
-                {this.props.rightIcon && (
-                  <Button onPress={this.props.rightIcon.onPress}>
-                    <Icon name={this.props.rightIcon.iconName} size={28} />
-                  </Button>
-                )}
-              </View>
-              <Spacer horizontal space={12} />
+              {props.leftIcon && (
+                <Button onPress={props.leftIcon.onPress}>
+                  <Icon name={props.leftIcon.iconName} size={28} />
+                </Button>
+              )}
+              <Typography fontSize={18}>{props.title}</Typography>
+              {props.rightIcon && (
+                <Button onPress={props.rightIcon.onPress}>
+                  <Icon name={props.rightIcon.iconName} size={28} />
+                </Button>
+              )}
             </View>
+            <Spacer horizontal space={12} />
           </View>
-        )}
-      </SafeAreaInsetsContext.Consumer>
-    )
-  }
+        </View>
+      )}
+    </SafeAreaInsetsContext.Consumer>
+  )
 }
