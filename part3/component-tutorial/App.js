@@ -3,21 +3,34 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Header } from './src/components/header/Header';
 import { Spacer } from './src/components/atoms/Spacer';
 import { TapIcon } from './src/components/molcules/TapIcon'
+import { HookTestComponent } from './src/components/HookTestComponent';
+import { useCallback, useState } from 'react';
+import { Button } from './src/components/atoms/Button';
+import { Typography } from './src/components/atoms/Typography';
 
 export default function App() {
+  const [a, setA] = useState(0)
+  const [b, setB] = useState(0)
+
+  const doSum = useCallback(() => {
+    return (a+b)
+  }, [b])
+
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
         <Header>
-          <Header.Group>
-            <Header.Icon iconName='home'></Header.Icon>
-            <Spacer space={5} horizontal />
-            <Header.Title title='FESTIVL LIFE'></Header.Title>
-          </Header.Group>
-          <Header.Icon iconName='close'></Header.Icon>
+          <Header.Title title='FESTIVL LIFE'></Header.Title>
         </Header>
-        <View style={{ flexDirection: 'row' }}>
-          <TapIcon visibleBadge iconName='home' />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <HookTestComponent a={a} b={b}></HookTestComponent>
+          <Typography>현재 callback으로 계산 된 값 : {doSum()}</Typography>
+          <Button onPress={() => {
+            console.log('press')
+            setA(a+1)
+          }}>
+            <Typography>A 더하기</Typography>
+          </Button>
         </View>
       </View>
     </SafeAreaProvider>
