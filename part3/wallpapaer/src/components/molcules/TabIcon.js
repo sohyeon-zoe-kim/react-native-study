@@ -3,7 +3,7 @@ import { View } from "react-native"
 import { Badge } from "../atoms/Badge"
 import { Icon } from "../atoms/Icon"
 
-export const TapIcon = (props) => {
+export const TabIcon = (props) => {
   if (props.visibleBadge) {
     return (
       <View>
@@ -11,7 +11,7 @@ export const TapIcon = (props) => {
           <Icon
             name={props.iconName}
             size={20}
-            color='black'
+            color={props.iconColor}
           />
         </Badge>
       </View>
@@ -23,7 +23,7 @@ export const TapIcon = (props) => {
       <Icon
         name={props.iconName}
         size={20}
-        color='black'
+        color={props.iconColor}
       />
     </View>
   )

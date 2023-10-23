@@ -1,8 +1,10 @@
-import { View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native"
+import { RootStackNavigation } from "./src/navigations/RootStackNavigation";
 
 export default function App() {
   return (
-    <View>
-    </View>
+    <NavigationContainer>
+      <RootStackNavigation />
+    </NavigationContainer>
   );
 }
