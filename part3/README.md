@@ -114,3 +114,46 @@
 
 > Vue에서의 computed 와 유사한 느낌이라는 생각이 들었음. useMemo/useCallback 각각 어떤 상황일 때 주로 쓰면 좋은지 개발하면서 익혀보자 👩🏻‍🎓
 
+## 3. 상태관리
+
+### Redux
+Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
+> **Redux 데이터 흐름**  
+> action -> reducer -> store -> view -> action
+
+1. Reducer
+- Action과 마지막 Store의 상태를 기준으로 **새로운 상태**를 만들어 주는 것
+
+2. Redux 사용 규칙
+- Single source of truth
+  - 애플리케이션의 모든 상태는 하나의 저장소 안에 저장해야 한다.
+  - **디버깅과 생산성 향상의 이점**을 가지고 있음
+- State is read-only
+  - 상태는 읽기만 허용
+  - 변화의 의도를 파악하고 **중앙에서 흐름 관리를 엄격하게 하기** 위함
+- Changes are made with pure functions
+  - 변화는 **순수함수**로만 해야함
+  - 순수함수 : 외부 값에 의존하지 않고 매개변수만을 통해서 반환값을 만들어 내는 것
+
+3. Redux middleware
+- Middleware
+  - store.dispatch 함수의 실행 뒤 어떠한 작업을 하기 위해 호출
+  - action(store.dispatch) -> **middleware** -> reducer -> store -> view -> action
+- redux logger
+  - prev state, next state, action 등을 나열해 보여줌 (디버깅을 위하여 사용)
+- redux thunk
+  - thunk : 특정 작업을 나중에 하기 위해서 만들어둔 함수
+  - 객체 대신 함수를 Dispatch 할 수 있게 해주는 것
+- redux saga
+  - action의 발생여부를 모니터링 하다가 그 뒤 작업을 진행 하도록 함
+
+4. Redux에서 자주 사용하는 hook
+> hook이 있기 전에는 connect 함수를 통하여 진행 (보일러 플레이트 코드가 굉장히 많음)
+
+- useSelector
+  - store에 있는 값을 가져오기 위함
+- useDispatch
+  - redux action을 사용하기 위한 hook
+- createSelector
+  - reselect package에 있는 함수
+  - Memoization등 캐싱을 하기 위해 사용 (store가 커질수록 유용하게 사용되는 hook)
