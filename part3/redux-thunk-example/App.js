@@ -1,10 +1,14 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-// import { CountScreen } from './src/screens/CountScreen';
+import { CounterScreen } from './src/screens/CounterScreen';
+import { Provider } from 'react-redux';
+import store from './src/store/store';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-        {/* <CountScreen /> */}
+      <Provider store={store}>
+        <CounterScreen />
+      </Provider>
     </SafeAreaProvider>
   );
 }
