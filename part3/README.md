@@ -148,7 +148,7 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
   - action의 발생여부를 모니터링 하다가 그 뒤 작업을 진행 하도록 함
 
 4. Redux에서 자주 사용하는 hook
-> hook이 있기 전에는 connect 함수를 통하여 진행 (보일러 플레이트 코드가 굉장히 많음)
+> hook이 있기 전에는 connect 함수를 통하여 진행 (boilerplate 코드가 굉장히 많음)
 
 - useSelector
   - store에 있는 값을 가져오기 위함
@@ -179,3 +179,45 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
 * 언제 Context API를 사용하는가
   - 주로 static한 잘 변경되지 않는 정보에 대해서 적용
   - ex. App theme 저장, 다국적 앱에서 언어 팩 등
+
+### Recoil
+> 2020년도 발표  
+> Redux, Mobx 등 기존 상태 관리 라이브러리의 아쉬운점들을 극복하고자 탄생
+
+* Redux
+  - 장점
+    - 그동안 많은 검증을 거친 라이브러리
+    - redux-logger 등 디버그를 위한 편의가 잘 갖춰져 있음
+  - 단점
+    - 높은 학습비용 (러닝커브)
+    - boilerplate가 다소 있는 편
+
+1. 구성 요소
+- atom
+  - 상태의 단위, 업데이트 또는 Subscribe 등이 가능
+  ```jsx
+    const myState = atom({
+      key: 'UNIQUE_KEY',
+      default: {/*상태 관리시 사용 할 value*/}
+    })
+
+    const componentA = () => {
+      const [fontSize, setFontSize] = useRecoilState(myState)
+      return (/* View return */)
+    }
+  ```
+- selectors
+  - atoms나 selector의 파생데이터를 계산하는데 사용
+  ```jsx
+    const fontSizeLabelState = selector({
+      key: 'UNIQUE_KEY',
+      get: ({get}) => {
+        const fontSize = get(fontSizeState)
+        return `fontSize is ${fontSize}`
+      }
+    })
+
+    const componentA = () => {
+      const fontSizeLabel = useRecoilValue(fontSizeLabelState)
+    }
+  ```
