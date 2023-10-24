@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
 import { View, useWindowDimensions, ActivityIndicator } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import * as FileSystem from 'expo-file-system'
@@ -9,11 +10,18 @@ import { RemoteImage } from '../components/atoms/RemoteImage'
 import { Button } from "../components/atoms/Button"
 import { Typography } from "../components/atoms/Typography"
 import { Icon } from "../components/atoms/Icon"
+import { onClickFavorite } from "../actions/favorite"
 
 export const ImageDetailScreen = (props) => {
   const navigation = useNavigation()
   const route = useRoute()
   const [downloading, setDownloading] = useState(false)
+
+  const dispatch = useDispatch()
+
+  const onPressFavorite = useCallback(() => {
+    dispatch(onClickFavorite(route.params.url))
+  }, [])
 
   const onPressBack = useCallback(() => {
     navigation.goBack()
@@ -53,6 +61,10 @@ export const ImageDetailScreen = (props) => {
 
   const { width } = useWindowDimensions() 
 
+  const isFavorite = useSelector((state) => {
+    return state.favorite.favoriteList.find(item => item === route.params.url)
+  })
+
   return (
     <View style={{ flex: 1 }}>
       <Header>
@@ -60,6 +72,7 @@ export const ImageDetailScreen = (props) => {
           <Header.Icon iconName='arrow-back' onPress={onPressBack} />
           <Header.Title title='IMAGE DETAIL' />
         </Header.Group>
+        <Header.Icon iconName={isFavorite ? 'heart' : 'heart-outline'} onPress={onPressFavorite}></Header.Icon>
       </Header>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <RemoteImage url={route.params.url} width={width} height={width * 1.5} />
