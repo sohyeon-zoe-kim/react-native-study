@@ -157,3 +157,25 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
 - createSelector
   - reselect package에 있는 함수
   - Memoization등 캐싱을 하기 위해 사용 (store가 커질수록 유용하게 사용되는 hook)
+
+### Context API
+> props-drilling을 제거하기 위해 탄생  
+> React 16.3 버전부터 지원  
+> 간단한 전역변수를 선언할 때 사용 (ex. theme, intl)
+
+1. Provider
+- 값을 제공 해주기 위하여 root component로 사용
+- value prop을 가짐
+
+2. Consumer
+- 제공된 값에 접근 할 수 있도록 하는 것
+
+### Redux vs Context API
+* Context API : 상태 관리 도구 X, 전역 변수 관리 O
+* 상태관리 도구의 조건
+  - 초기값을 저장하는가?
+  - 스스로 값을 읽어올 수 있는가?
+  - 스스로 값 업데이트가 가능한가?
+* 언제 Context API를 사용하는가
+  - 주로 static한 잘 변경되지 않는 정보에 대해서 적용
+  - ex. App theme 저장, 다국적 앱에서 언어 팩 등
