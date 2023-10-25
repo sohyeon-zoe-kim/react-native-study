@@ -280,3 +280,22 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
 ```
 - animation을 적용할 위치에 Animated.View 사용
 - 계산된 scale값을 transform에 사용
+
+## 5. AsyncStorage
+> key 값으로 String을 저장
+
+- 유저에 대한 정보(accessToken, refreshToken) 저장
+- 기능을 보여줄지 말지 여부, 마지막 접속 시간 등 임시정보 저장
+- Android : SQLite 에 저장
+- iOS : 네이티브 코드로 저장로직이 작성되어 있음
+
+### Redux-persist
+> 저장소에 마지막 Redux 상태를 저장하였다 이어서 사용 할 수 있도록 하는 것  
+> React-Native에서는 AsyncStorage에 저장
+
+1. PersistGate
+- Component 형태로 작성되어 있음.
+- Storage로부터 데이터를 로드해 Redux를 업데이트
+- 로딩 하는 동안에 Loading 컴포넌트 추가 가능
+2. BlackList : 유지 하지 않아도 되는 Redux key 값들
+3. WhiteList : 유지를 해야 하는 key값
