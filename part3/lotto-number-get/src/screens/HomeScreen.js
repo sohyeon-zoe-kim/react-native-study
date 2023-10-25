@@ -5,13 +5,15 @@ import { Spacer } from "../components/atoms/Spacer"
 import { Button } from '../components/atoms/Button'
 import { Typography } from "../components/atoms/Typography"
 import { LottoNumberView } from "../components/LottoNumberView"
-import { getRandomSixNumber } from "../utils/utils"
+import { useDispatch, useSelector } from "react-redux"
+import { createNewNumbers } from "../actions/lottoNumbers"
 
 export const HomeScreen = (props) => {
-  const [numbers, setNumbers] = useState([])
+  const numbers = useSelector((state) => state.numbers.currentNumbers)
+
+  const dispatch = useDispatch()
   const onPressGetNumber = useCallback(() => {
-    const randomNumber = getRandomSixNumber()
-    setNumbers(randomNumber)
+    dispatch(createNewNumbers())
   }, [])
 
   return (
