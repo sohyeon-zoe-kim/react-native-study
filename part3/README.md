@@ -1,6 +1,8 @@
 ### 목차
 [1. 실무에서 자주 사용되는 Hook](#1-실무에서-자주-사용되는-hook)  
-[2. Memoization](#2-memoization)
+[2. Memoization](#2-memoization)  
+[3. 상태관리](#3-상태관리)  
+[4. Animated](#4-animated)  
 
 ## 1. 실무에서 자주 사용되는 Hook
 ### useWindowDimensions
@@ -221,3 +223,60 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
       const fontSizeLabel = useRecoilValue(fontSizeLabelState)
     }
   ```
+
+## 4. Animated
+```jsx
+0| const [animValue] = useState(new Animated.Value(0))
+1|
+2| const scale = animValue.interpolate({
+3|		inputRange: [0, 1],
+4|		outputRange: [1.0, 0.95]
+5| })
+```
+- 0: animValue의 최초값은 0
+- 3: animValue의 값이 0 에서 1로 변환되면
+- 4: scale 값을 1.0 에서 0.95로 이동한다
+
+```jsx
+0| Animated.timing(animValue, {
+1|   duration: 200,
+2|   toValue: 1,
+3|   useNativeDriver: true
+4| }).start()
+```
+- timing을 사용하여 애니메이션을 실행할 수 있음
+- 1: 몇초동안 애니메이션을 실행할지
+    - css animation의 duration 이랑 유사
+- 2: 변경할 값
+    - ex. 1로 변경
+- 3: useNativeDriver
+    - 브릿지를 거쳐 실행되는 애니메이션에 관련된 JS코드를 네이티브에 모두 넘겨버림
+    - 매번 브릿지를 거치지 않고 네이티브에서 애니메이션을 수행하므로 부드러운 움직임을 나타낼 수 있음
+    - timing 메소드 뿐만 아니라 다른 모든 메소드에서 사용가능
+    - 적용 시 움직임이 눈에 띄게 부드러워짐(특히 transform에 유용)
+    <details>
+      <summary> 주의 </summary>
+      <div markdown="1">
+        <ul>
+          <li> non-layout 프로퍼티에만 적용가능합니다.(transform, opacity 등)
+          <li> layout 프로퍼티(width, top, flex 등)에는 적용할 수 없습니다.
+          <li> layout 프로퍼티에 관한 애니메이션은 LayoutAnimation을 사용합니다.
+        <ul>
+      </div>
+    </details>
+
+```jsx
+ 0| <Animated.View
+ 1|   style={{
+ 2|     transform: [
+ 3|       { 
+ 4|         scale: scale 
+ 5|       }
+ 6|     ]
+ 7|   }
+ 8| }>
+ 9| // children
+10| </Animated.View>
+```
+- animation을 적용할 위치에 Animated.View 사용
+- 계산된 scale값을 transform에 사용
