@@ -1,7 +1,7 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { HomeScreen } from "../components/screens/HomeScreen"
-import { HistoryListScreen } from "../components/screens/HistoryListScreen"
+import { HomeScreen } from "../screens/HomeScreen"
+import { HistoryListScreen } from "../screens/HistoryListScreen"
 import { TabIcon } from '../components/molcules/TabIcon'
 
 const Tab = createBottomTabNavigator()
