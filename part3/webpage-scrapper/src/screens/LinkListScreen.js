@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Icon } from "../components/atoms/Icon"
 import { useRecoilValue } from "recoil"
 import { atomLinkList } from "../states/atomLinkList"
+import { LinkItem } from "../components/LinkItem"
 
 export const LinkListScreen = () => {
   const navigation = useNavigation()
@@ -70,11 +71,9 @@ export const LinkListScreen = () => {
         renderItem={({ item }) => {
           return (
             <Button onPress={() => onPressListItem(item)} paddingHorizontal={24} paddingVertical={24}>
+              <LinkItem image={item.image} title={item.title}/>
               <View>
-                <Typography fontSize={20}>
-                  {item.link}
-                </Typography>
-                <Spacer space={4} />
+                <Spacer space={8} />
                 <Typography fontSize={16} color='gray'>
                   {item.title !== '' ? `${item.title.slice(0, 20)} | ` : ''}{new Date(item.createdAt).toLocaleString()}
                 </Typography>

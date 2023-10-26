@@ -8,11 +8,11 @@ import { SingleLineInput } from "../components/atoms/SingleLineInput"
 import { Button } from "../components/atoms/Button"
 import { Typography } from "../components/atoms/Typography"
 import { Spacer } from "../components/atoms/Spacer"
-import { RemoteImage } from '../components/atoms/RemoteImage'
 import { atomLinkList } from "../states/atomLinkList"
 import { getOpenGraphData } from "../utils/OpenGraphTagUtils"
 import { getClipBoardString } from "../utils/ClipBoardUtils"
 import { Icon } from "../components/atoms/Icon"
+import { LinkItem } from "../components/LinkItem"
 
 export const AddLinkScreen = () => {
   const navigation = useNavigation()
@@ -44,7 +44,7 @@ export const AddLinkScreen = () => {
     })
 
     setUrl('')
-  }, [url]) 
+  }, [url, metaData]) 
 
   const onSubmitEditing = useCallback(async () => {
     setLoading(true)
@@ -109,17 +109,7 @@ export const AddLinkScreen = () => {
         ) : metaData !== null && (
           <>
             <Spacer space={20} />
-            <View style={{ borderWidth: 1, borderRadius: 4, borderColor: 'gray'}}>
-              <RemoteImage url={metaData.image} width={width - 50} height={(width - 48) * 0.5} />
-              <View style={{ paddingHorizontal: 12, paddingVertical: 8}}>
-                <Spacer space={8} />
-                <Typography fontSize={20} color='black'>{metaData.title}</Typography>
-                <Spacer space={4} />
-                {metaData.description !== '' && (
-                  <Typography fontSize={16} color='gray'>{metaData.description}</Typography>
-                )}
-              </View>
-            </View>
+            <LinkItem image={metaData.image} title={metaData.title} description={metaData.description} />
           </>
         )}
       </View>
