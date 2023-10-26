@@ -12,6 +12,7 @@ import { RemoteImage } from '../components/atoms/RemoteImage'
 import { atomLinkList } from "../states/atomLinkList"
 import { getOpenGraphData } from "../utils/OpenGraphTagUtils"
 import { getClipBoardString } from "../utils/ClipBoardUtils"
+import { Icon } from "../components/atoms/Icon"
 
 export const AddLinkScreen = () => {
   const navigation = useNavigation()
@@ -78,12 +79,22 @@ export const AddLinkScreen = () => {
         <Header.Icon iconName='close' onPress={onPressClose} />
       </Header>      
       <View style={{ flex: 1, justifyContent: 'flex-start', paddingTop: 32, paddingHorizontal: 24 }}>
-        <SingleLineInput
-          value={url}
-          onChangeText={setUrl}
-          placeholder='https://example.com'
-          onSubmitEditing={onSubmitEditing}
-        />
+        <View>
+          <SingleLineInput
+            value={url}
+            onChangeText={setUrl}
+            placeholder='https://example.com'
+            onSubmitEditing={onSubmitEditing}
+          />
+          <View style={{ position: 'absolute', top: 0, bottom: 0, right: 8, alignItems: 'center', justifyContent: 'center' }}>
+            <Button onPress={() => {
+              setUrl('')
+              setMetaData(null)
+            }}>
+              <Icon name='close' color='black' size={20} />
+            </Button>
+          </View>
+        </View>
         {loading ? (
           <>
             <Spacer space={20} />
