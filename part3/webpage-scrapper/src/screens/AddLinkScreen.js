@@ -44,6 +44,7 @@ export const AddLinkScreen = () => {
     })
 
     setUrl('')
+    setMetaData(null)
   }, [url, metaData]) 
 
   const onSubmitEditing = useCallback(async () => {

@@ -75,7 +75,13 @@ export const LinkListScreen = () => {
               <View>
                 <Spacer space={8} />
                 <Typography fontSize={16} color='gray'>
-                  {item.title !== '' ? `${item.title.slice(0, 20)} | ` : ''}{new Date(item.createdAt).toLocaleString()}
+                  {item.title !== ''
+                    ? item.title.length > 20
+                      ? `${item.title.slice(0, 20)}... | `
+                      : `${item.title.slice(0, 20)} | `
+                    : ''
+                  }
+                  {new Date(item.createdAt).toLocaleString()}
                 </Typography>
               </View>
             </Button>
