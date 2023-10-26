@@ -1,6 +1,6 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import { useNavigation } from '@react-navigation/native'
-import { FlatList, View } from "react-native"
+import { SectionList, View } from "react-native"
 import { Header } from '../components/header/Header'
 import { Button } from "../components/atoms/Button"
 import { Typography } from "../components/atoms/Typography"
@@ -23,6 +23,33 @@ export const LinkListScreen = () => {
     navigation.navigate('AddLink')
   })
 
+  const sectionData = useMemo(() => {
+    const dataList = {}
+
+    const makeDataString = (createAt) => {
+      const dataItem = new Date(createAt)
+      return `${dataItem.getFullYear()}.${dataItem.getMonth()+1}.${dataItem.getDay()} ${dataItem.getHours()} : ${dataItem.getMinutes()} `
+    }
+
+    if (!data.list) return []
+
+    data.list.forEach((item) => {
+      const keyName = makeDataString(item.createdAt)
+      if (!dataList[keyName]) {
+        dataList[keyName] = [item]
+      } else {
+        dataList[keyName].push(item)
+      }
+    })
+
+    return Object.keys(dataList).map((item) => {
+      return {
+        title: item,
+        data: dataList[item]
+      }
+    })
+  }, [data.list])
+
   return (
     <View style={{ flex: 1 }}>
       <Header>
@@ -30,9 +57,16 @@ export const LinkListScreen = () => {
           <Header.Title title='LINK LIST' />
         </Header.Group>
       </Header>
-      <FlatList
+      <SectionList
         style={{ flex: 1 }}
-        data={data.list}
+        sections={sectionData}
+        renderSectionHeader={({ section }) => {
+          return (
+            <View style={{ paddingHorizontal: 12, paddingVertical: 4, backgroundColor: 'white'}}>
+              <Typography color='gray' fontSize={12}>{section.title}</Typography>
+            </View>
+          )
+        }}
         renderItem={({ item }) => {
           return (
             <Button onPress={() => onPressListItem(item)} paddingHorizontal={24} paddingVertical={24}>
