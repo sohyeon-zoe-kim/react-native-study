@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useNavigation } from '@react-navigation/native'
-import { View, useWindowDimensions } from "react-native"
+import { ActivityIndicator, View, useWindowDimensions } from "react-native"
 import { useSetRecoilState } from "recoil"
 import { Header } from "../components/header/Header"
 import { SingleLineInput } from "../components/atoms/SingleLineInput"
@@ -19,6 +19,7 @@ export const AddLinkScreen = () => {
   const updateList = useSetRecoilState(atomLinkList)
   const [metaData, setMetaData] = useState(null)
   const [url, setUrl] = useState('')
+  const [loading, setLoading] = useState(false)
   const { width } = useWindowDimensions()
 
   const onPressClose = useCallback(() => {
@@ -45,8 +46,10 @@ export const AddLinkScreen = () => {
   }, [url]) 
 
   const onSubmitEditing = useCallback(async () => {
+    setLoading(true)
     const result = await getOpenGraphData(url)
     setMetaData(result)
+    setLoading(false)
   }, [url])
 
   const onGetClipBoardString = useCallback(async () => {
@@ -74,27 +77,38 @@ export const AddLinkScreen = () => {
         </Header.Group>
         <Header.Icon iconName='close' onPress={onPressClose} />
       </Header>      
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', paddingTop: 32, paddingHorizontal: 24 }}>
+      <View style={{ flex: 1, justifyContent: 'flex-start', paddingTop: 32, paddingHorizontal: 24 }}>
         <SingleLineInput
           value={url}
           onChangeText={setUrl}
           placeholder='https://example.com'
           onSubmitEditing={onSubmitEditing}
         />
-        {metaData !== null && (
+        {loading ? (
           <>
-          <Spacer space={20} />
-          <View style={{ borderWidth: 1, borderRadius: 4, borderColor: 'gray'}}>
-            <RemoteImage url={metaData.image} width={width - 48} height={(width - 48) * 0.5} />
-            <View style={{ paddingHorizontal: 12, paddingVertical: 8}}>
-              <Spacer space={8} />
-              <Typography fontSize={20} color='black'>{metaData.title}</Typography>
-              <Spacer space={4} />
-              {metaData.description !== '' && (
-                <Typography fontSize={16} color='gray'>{metaData.description}</Typography>
-              )}
+            <Spacer space={20} />
+            <View style={{ borderWidth: 1, borderRadius: 4, borderColor: 'gray'}}>
+              <Spacer space={(width - 48) * 0.5} />
+              <Spacer space={50} />
+              <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center'}}>
+                <ActivityIndicator />
+              </View>
             </View>
-          </View>
+          </>
+        ) : metaData !== null && (
+          <>
+            <Spacer space={20} />
+            <View style={{ borderWidth: 1, borderRadius: 4, borderColor: 'gray'}}>
+              <RemoteImage url={metaData.image} width={width - 50} height={(width - 48) * 0.5} />
+              <View style={{ paddingHorizontal: 12, paddingVertical: 8}}>
+                <Spacer space={8} />
+                <Typography fontSize={20} color='black'>{metaData.title}</Typography>
+                <Spacer space={4} />
+                {metaData.description !== '' && (
+                  <Typography fontSize={16} color='gray'>{metaData.description}</Typography>
+                )}
+              </View>
+            </View>
           </>
         )}
       </View>
