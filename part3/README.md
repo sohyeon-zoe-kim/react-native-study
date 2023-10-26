@@ -299,3 +299,71 @@ Flux에서 Reducer의 개념이 들어간 것 (**Red**ucer + Fl**ux**)
 - 로딩 하는 동안에 Loading 컴포넌트 추가 가능
 2. BlackList : 유지 하지 않아도 되는 Redux key 값들
 3. WhiteList : 유지를 해야 하는 key값
+
+### Recoil-custom-persist
+> Recoil 사용시, 직접 custom한 persist component를 작성하여 초기값을 셋팅하는 방법
+
+1. Recoil - effects
+- effects는 부수 효과를 과리하고 atom을 초기화 또는 동기화하기 위한 API
+- setSelf
+  - atom 초기값 지정 (초기 렌더링에 이용된다)
+  - 주로 storage에 있는 데이터를 atom에 넣어줄 때 사용
+- onSet
+  - 값이 변경될 때마다 값을 동기화
+  - 주로 storage에 데이터를 저장할 때 사용
+
+```jsx
+const asyncStorageEffect = key => async ({setSelf, onSet}) => {
+  const savedValue = await getItem(key)
+  
+  if (savedValue !== null) {
+    setSelf(JSON.parse(savedValue))
+  }
+
+  onSet((newValue, _, isReset) => {
+    console.log('onSet', newValue)
+    isReset
+    ? removeItem(key)
+    : setItem(key, JSON.stringify(newValue))
+  })
+}
+
+export const atomLinkList = atom({
+  key: 'MAIN/LINK_LIST',
+  default: {
+    list: []
+  },
+  effects: [asyncStorageEffect('MAIN/LINK_LIST')]
+})
+```
+
+2. Recoil Custom Persist 컴포넌트
+
+```jsx
+...
+const [isLoaded, setIsLoaded] = useState(false)
+const setList = useSetRecoilState(atomLinkList)
+
+const loadData = useCallback(async () => {
+  const data = await getItem('MAIN/LINK_LIST')
+
+  if (data !== null) {
+    setList(data)
+  }
+
+  setIsLoaded(true)
+}, [])
+
+useEffect(() => {
+  if (isLoaded) return 
+
+  loadData()
+}, [])
+
+return (
+  <>
+    {isLoaded && props.children}
+  </>
+)
+...
+```
