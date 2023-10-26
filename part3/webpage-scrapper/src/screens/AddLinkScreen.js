@@ -23,8 +23,14 @@ export const AddLinkScreen = () => {
   const [loading, setLoading] = useState(false)
   const { width } = useWindowDimensions()
 
+  const resetData = useCallback(() => {
+    setUrl('')
+    setMetaData(null)
+  }, [])
+
   const onPressClose = useCallback(() => {
     navigation.goBack()
+    resetData()
   }, [])
 
   const onPressSave = useCallback(() => {
@@ -43,8 +49,7 @@ export const AddLinkScreen = () => {
       }
     })
 
-    setUrl('')
-    setMetaData(null)
+    resetData()
   }, [url, metaData]) 
 
   const onSubmitEditing = useCallback(async () => {
