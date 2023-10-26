@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text as RNText} from 'react-native'
-import PropTypes from 'prop-types'
 
 export const Typography = (props) => {
   return (
@@ -13,10 +12,4 @@ export const Typography = (props) => {
       {props.children}
     </RNText>
   )
-}
-
-Typography.propTypes = {
-  color: PropTypes.string,
-  fontSize: PropTypes.number,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired
 }

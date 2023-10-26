@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { TextInput, View } from 'react-native'
 
 export const SingleLineInput = (props) => {
-  const [focused, setFocused]  = useState(false, )
+  const [focused, setFocused]  = useState(false)
 
   return (
     <View
