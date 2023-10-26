@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useNavigation } from '@react-navigation/native'
 import { View, useWindowDimensions } from "react-native"
@@ -11,6 +11,7 @@ import { Spacer } from "../components/atoms/Spacer"
 import { RemoteImage } from '../components/atoms/RemoteImage'
 import { atomLinkList } from "../states/atomLinkList"
 import { getOpenGraphData } from "../utils/OpenGraphTagUtils"
+import { getClipBoardString } from "../utils/ClipBoardUtils"
 
 export const AddLinkScreen = () => {
   const navigation = useNavigation()
@@ -29,8 +30,8 @@ export const AddLinkScreen = () => {
 
     updateList((prevState) => {
       const list = [{
-        title: '',
-        image: '',
+        title: metaData.title,
+        image: metaData.image,
         link: url,
         createdAt: new Date().toISOString()
       }]
@@ -45,11 +46,25 @@ export const AddLinkScreen = () => {
 
   const onSubmitEditing = useCallback(async () => {
     const result = await getOpenGraphData(url)
-
-    console.log(result)
-    
     setMetaData(result)
   }, [url])
+
+  const onGetClipBoardString = useCallback(async () => {
+    const result = await getClipBoardString()
+    if (result.startsWith('http://') || result.startsWith('https://')) {
+      setUrl(result)
+      const ogResult = await getOpenGraphData(result)
+      setMetaData({
+        title: ogResult.title,
+        image: ogResult.image,
+        description: ogResult.description ?? ''
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    onGetClipBoardString()
+  }, [])
 
   return (
     <View style={{ flex: 1 }}>
@@ -75,7 +90,7 @@ export const AddLinkScreen = () => {
               <Spacer space={8} />
               <Typography fontSize={20} color='black'>{metaData.title}</Typography>
               <Spacer space={4} />
-              {metaData.description && (
+              {metaData.description !== '' && (
                 <Typography fontSize={16} color='gray'>{metaData.description}</Typography>
               )}
             </View>
