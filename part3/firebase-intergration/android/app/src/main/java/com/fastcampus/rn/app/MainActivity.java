@@ -1,4 +1,4 @@
-package com.firebaseintergration;
+package com.fastcampus.rn.app;
 
 import android.os.Build;
 import android.os.Bundle;
