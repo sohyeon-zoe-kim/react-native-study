@@ -1,74 +1,57 @@
-import { View, Text, Image, ActivityIndicator } from 'react-native';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { View, Text, Image, ActivityIndicator, Button, Platform } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
-import firebaseAuth, { firebase } from '@react-native-firebase/auth';
-
-
-GoogleSignin.configure()
+import * as ImagePicker from 'expo-image-picker'
+import storage from '@react-native-firebase/storage'
+import * as FileSystem from 'expo-file-system'
 
 export default function App() {
-  const [userInfo, setUserInfo] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [lastUploadImage, setLastUploadIimage] = useState(null)
 
-  const onPressGoogleSignin = useCallback(async () => {
-    try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true
-      })
-      const userInfo = await GoogleSignin.signIn()
-      console.log('userInfo', userInfo)
+  const onPressPickFile = useCallback(async () => {
+    const pickResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1
+    })
 
-      const credential = firebaseAuth.GoogleAuthProvider.credential(userInfo.idToken)
-      const result = await firebaseAuth().signInWithCredential(credential)
-
-      console.log(result)
-
-      setUserInfo({
-        name: result.additionalUserInfo.profile.name,
-        profileImage: result.additionalUserInfo.profile.picture,
-      })
-    } catch (err) {
-
+    if (pickResult.canceled) {
+      return
     }
+
+    const image = pickResult.assets[0]
+    setSelectedImage(image)
+    const uri = image.uri
+    const fileNameArray = uri.split('/')
+    const fileName = fileNameArray[fileNameArray.length - 1]
+
+    console.log(fileName)
+
+    const putResult = await storage().ref(fileName).putFile(Platform.OS === 'ios' ? uri.replace('file://', '') : uri)
+    console.log(putResult)
+
+    setLastUploadIimage(putResult)
+
   }, [])
 
-  const getCurrentUserInfo = useCallback(async () => {
-    try {
-      setLoading(true)
-      const userInfo = await GoogleSignin.signInSilently()
-      const credential = firebaseAuth.GoogleAuthProvider.credential(userInfo.idToken)
-      const result = await firebaseAuth().signInWithCredential(credential)
-      console.log(result)
-      setUserInfo({
-        name: result.additionalUserInfo.profile.name,
-        profileImage: result.additionalUserInfo.profile.picture,
-      })
-      setLoading(false)
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-      } else {
-      }
-    }
-  }, [])
+  const onPressDownloadImage = useCallback(async () => {
+    const downloadUrl = await storage().ref(lastUploadImage.metadata.fullPath).getDownloadURL()
+    const { uri } = await FileSystem.createDownloadResumable(
+      downloadUrl,
+      FileSystem.documentDirectory + lastUploadImage.metadata.name,
+      {}
+    ).downloadAsync()
 
-  useEffect(() => {
-    getCurrentUserInfo()
-  }, [])
-
+    console.log(uri)
+  }, [lastUploadImage])
+  
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      {loading ? (
-        <ActivityIndicator />
-      ) : (
-        userInfo !== null ? (
-          <View style={{ alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={{uri: userInfo.profileImage}} style={{ width: 100, height: 100, borderRadius: 50}} />
-            <Text style={{ fontSize: 24, marginTop: 20 }}>{userInfo.name}</Text>
-          </View>
-        ) : (
-          <GoogleSigninButton onPress={onPressGoogleSignin} />
-        )
+      {selectedImage !== null && (
+        <Image source={{ uri: selectedImage.uri }} style={{ width: 200, height: 200 }} />
       )}
+      <Button title='PICK FILE' onPress={onPressPickFile}></Button>
+      <Button title='DOWNLOAD FILE' onPress={onPressDownloadImage}></Button>
     </View>
   );
 }
