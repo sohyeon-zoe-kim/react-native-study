@@ -3,6 +3,8 @@
 [2. Memoization](#2-memoization)  
 [3. 상태관리](#3-상태관리)  
 [4. Animated](#4-animated)  
+[5. AsyncStorage](#5-asyncstorage)
+[6. Firebase](#6-firebase)
 
 ## 1. 실무에서 자주 사용되는 Hook
 ### useWindowDimensions
@@ -367,3 +369,48 @@ return (
 )
 ...
 ```
+
+## 6. Firebase
+
+1. RealTime DataBase
+- 실시간으로 접근 할 수 있는 database (NoSQL)  
+- 실질적으로 저장되는 값은 key와 value 값으로 구성된 JSON Object
+- 동시 연결수에 대한 제한이 있음
+
+2. Storage
+- 파일 저장을 위해서 사용
+- 프로필사진, 임시 저장하는 파일 저장 기능
+
+3. Cloud Firestore
+- 데이터를 저장 하기 위한 제품
+- 실시간성, NoSQL을 지원한다는 점은 Realtime Database와 비슷
+- 저장하는 값 : JSON 형태가 아닌 Collections를 저장
+- Document: Data가 집합해있는 단위
+- Collections : Document가 집합해있는 단위
+
+  |RealTime Databse | Cloud Firestore|
+  |---|---|
+  |JSON Object 저장|Document 단위로 저장|
+  |정렬 및 필터링 + 조건문 불가|정렬 및 필터링 + 조건문 가능|
+  |용량 또는 데이터 크기에 과금|document CRUD에 따라 과금|
+  |데이터가 작고 CRUD가 자주 발생하면 RealTime Databse|큰 단위 데이터 요청시에는 Cloud Firestore  |
+
+4. Crashlytics
+- 앱이 강제종료 되었음을 알려주는 Tool
+- 로직을 잘 작성하더라도 라이브러리 등에서 크래시가 날 수도 있음
+- 보통 네이티브단에서 에러가 발생하면 앱이 강제종료되는 현상이 발생하고, javascript 단에서 에러가 발생하면 앱이 종료되진 않지만 흰 화면이 뜨는 현상이 발생함
+
+5. Remote Config
+- 원격에 있는 상수값을 업데이트 해줄 수 있는 Tool
+- 특정 기능에 대한 ON/OFF 또는 특정화면의 텍스트를 바꾸는 것으로 활용
+- 주의점
+  - Remote Config 값을 조회 실패했을 때 대비하여 기본값을 설정
+  - 실패 등 여러가지 이유로 인하여 최신값을 항상 보여주지는 않음
+
+6. AB Test
+- A 그룹과 B 그룹을 두고 어떤 그룹이 더 많은 전환율을 보이는지 체크
+- 기존 버전과 신규로 변경된 버전에서의 분기
+- 개선된 버전에서의 유저 피드백을 받는다는 이점
+- 사전 작업
+  - Remote Config (config 설정된 값들에 대하여 가능)
+  - Analytics (분석을 위해 필요)
