@@ -3,9 +3,12 @@ import { View } from "react-native"
 import { GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
+import { useSetRecoilState } from "recoil"
+import { stateUserInfo } from "./states/stateUserInfo"
 
 export const SplashView = (props) => {
   const [showLoginButton, setShowLoginButton] = useState(false)
+  const setUserInfo = useSetRecoilState(stateUserInfo)
 
   const signinUserIdentify = useCallback(async (idToken) => {
     const googleCredentials = auth.GoogleAuthProvider.credential(idToken)
@@ -37,6 +40,7 @@ export const SplashView = (props) => {
 
     console.log('userInfo', userInfo)
 
+    setUserInfo(userInfo)
     props.onFinishLoad()
 
   }, [])
