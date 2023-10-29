@@ -1,19 +1,40 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { View } from "react-native"
-import { Typography } from "./components/atoms/Typography"
+import { GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin'
+import auth from '@react-native-firebase/auth'
 
 export const SplashView = (props) => {
+  const [showLoginButton, setShowLoginButton] = useState(false)
+
+  const signinUserIdentify = useCallback(async (idToken) => {
+    const googleCredentials = auth.GoogleAuthProvider.credential(idToken)
+    const result = await auth().signInWithCredential(googleCredentials)
+
+    console.log(result)
+  }, [])
+
+  const onPressGoogleLogin = useCallback(async () => {
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+    const { idToken } = await GoogleSignin.signIn()
+    signinUserIdentify(idToken)
+  }, [])
+
+  const userSilentLogin = useCallback(async () => {
+    try {
+      const { idToken} = await GoogleSignin.signInSilently()
+      signinUserIdentify(idToken)
+    } catch (err) {
+      setShowLoginButton(true)
+    }
+  }, [])
+
   useEffect(() => {
-    setTimeout(() => {
-      props.onFinishLoad()
-    }, 2000)
+    userSilentLogin()
   }, [])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Typography fontSize={26}>
-        SPLASH
-      </Typography>
+      {showLoginButton && <GoogleSigninButton onPress={onPressGoogleLogin} />}
     </View>
   )
 }
