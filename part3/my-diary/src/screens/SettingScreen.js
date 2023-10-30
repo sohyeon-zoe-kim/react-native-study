@@ -49,6 +49,12 @@ export const SettingScreen = () => {
     await database().ref(userDB).update({
       password: '',
     })
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        password: '',
+      }
+    })
   },[userInfo])
 
   return (
@@ -85,22 +91,24 @@ export const SettingScreen = () => {
               paddingHorizontal: 24
             }}
           >
-            <Typography fontSize={16}>비밀번호 추가</Typography>
+            <Typography fontSize={16}>{userInfo.password !== '' ? '비밀번호 수정' : '비밀번호 추가'}</Typography>
             <Icon name='chevron-forward-outline' size={16} />
           </View>
         </Button>
-        <Button onPress={onPressClearPassword}>
-          <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingVertical: 12,
-              paddingHorizontal: 24
-            }}
-          >
-            <Typography fontSize={16}>비밀번호 초기화</Typography>
-          </View>
-        </Button>
+        {userInfo.password !== '' && (
+          <Button onPress={onPressClearPassword}>
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingVertical: 12,
+                paddingHorizontal: 24
+              }}
+            >
+              <Typography fontSize={16}>비밀번호 초기화</Typography>
+            </View>
+          </Button>
+        )}
       </View>
     </View>
   )

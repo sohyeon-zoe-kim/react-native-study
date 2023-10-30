@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { View } from "react-native"
 import { Header } from "../components/header/Header"
 import { Spacer } from "../components/atoms/Spacer"
@@ -19,13 +19,19 @@ export const AddPasswordScreen = () => {
   const [isInputFirst, setIsInputFirst] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const userInfo = useRecoilValue(stateUserInfo)
+  const [userInfo, setUserInfo] = useRecoilState(stateUserInfo)
   const onCompleteInputPassword = useCallback(async () => {
     if (firstInput != secondInput) return
 
     const userDB = `/users/${userInfo.uid}`
     await database().ref(userDB).update({
       password: firstInput,
+    })
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        password: firstInput,
+      }
     })
 
     navigation.goBack()
@@ -48,7 +54,7 @@ export const AddPasswordScreen = () => {
         <Header.Group>
           <Header.Icon iconName='arrow-back' onPress={onPressBack} />
           <Spacer space={12} horizontal />
-          <Header.Title title='비밀번호 추가' />
+          <Header.Title title={userInfo.password !== '' ? '비밀번호 수정' : '비밀번호 추가'} />
         </Header.Group>
       </Header>
       <View style={{ flex: 1, paddingTop: 32 }}>
