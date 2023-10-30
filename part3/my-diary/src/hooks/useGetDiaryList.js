@@ -12,8 +12,6 @@ export const useGetDiaryList = () => {
 
     const list = Object.keys(diaryListResult).map((key) => diaryListResult[key])
 
-    console.log(list)
-
     setDiaryList(list)
   }, [])
 }
