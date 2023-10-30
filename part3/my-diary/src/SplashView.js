@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { View } from "react-native"
+import { ActivityIndicator, View } from "react-native"
 import { GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
@@ -9,6 +9,7 @@ import { useGetDiaryList } from "./hooks/useGetDiaryList"
 import { PasswordInputBox } from "./components/PasswordInputBox"
 
 export const SplashView = (props) => {
+  const [loading, setLoading] = useState(false)
   const [showLoginButton, setShowLoginButton] = useState(false)
   const [inputPassword, setInputPassword] = useState('')
   const [userInfo, setUserInfo] = useRecoilState(stateUserInfo)
@@ -16,6 +17,7 @@ export const SplashView = (props) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false)
 
   const signinUserIdentify = useCallback(async (idToken) => {
+    setLoading(true)
     const googleCredentials = auth.GoogleAuthProvider.credential(idToken)
     const result = await auth().signInWithCredential(googleCredentials)
 
@@ -33,8 +35,6 @@ export const SplashView = (props) => {
         createdAt: now,
         lastLoginAt: now
       })
-    } else {
-      
     }
 
     const userInfo = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
@@ -43,6 +43,7 @@ export const SplashView = (props) => {
 
     if (userInfo.password !== '') {
       setShowPasswordInput(true)
+      setLoading(false)
       return
     }
 
@@ -62,8 +63,10 @@ export const SplashView = (props) => {
   const userSilentLogin = useCallback(async () => {
     try {
       const { idToken} = await GoogleSignin.signInSilently()
+      setLoading(true)
       signinUserIdentify(idToken)
     } catch (err) {
+      setLoading(false)
       setShowLoginButton(true)
     }
   }, [])
@@ -88,6 +91,9 @@ export const SplashView = (props) => {
           }
         }
       }} />}
+      {loading && (
+        <ActivityIndicator />
+      )}
     </View>
   )
 }
