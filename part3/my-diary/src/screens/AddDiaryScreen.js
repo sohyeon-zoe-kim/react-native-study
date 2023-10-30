@@ -7,6 +7,8 @@ import { Button } from "../components/atoms/Button"
 import { RemoteImage } from "../components/atoms/RemoteImage"
 import { Spacer } from "../components/atoms/Spacer"
 import { Typography } from "../components/atoms/Typography"
+import { SingleLineInput } from "../components/atoms/SingleLineInput"
+import { MultiLineInput } from "../components/atoms/MultiLineInput"
 import DateTimePicker from 'react-native-modal-datetime-picker'
 
 export const AddDiaryScreen = () => {
@@ -18,17 +20,17 @@ export const AddDiaryScreen = () => {
     }
   }, [width])
 
-  const [selectedPhotoUrl, setSelectedPhotoUrl] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
-  const runImagePickAndUpload = useImagePickAndUpload()
-
-  const [visibleDatePicker, setVisibleDatePicker] = useState(false)
-
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  
   const navigation = useNavigation()
   const onPressBack = useCallback(() => {
     navigation.goBack()
   }, [])
-
+  
+  const [selectedPhotoUrl, setSelectedPhotoUrl] = useState(null)
+  const runImagePickAndUpload = useImagePickAndUpload()
   const onPressPhotoItem = useCallback(async () => {
     const result = await runImagePickAndUpload()
     
@@ -36,9 +38,20 @@ export const AddDiaryScreen = () => {
       setSelectedPhotoUrl(result[0])
     }
   }, [])
-
+  
+  const [visibleDatePicker, setVisibleDatePicker] = useState(false)
   const onPressCalendar = useCallback(() => {
     setVisibleDatePicker(true)
+  }, [])
+
+  const canSave = useMemo(() => {
+    if (selectedDate === null) return false
+    if (title === '') return false
+    if (content === '') return false
+    return true
+  }, [selectedDate, title, content])
+  const onPressSave = useCallback(() => {
+
   }, [])
 
   return (
@@ -81,6 +94,34 @@ export const AddDiaryScreen = () => {
             </Typography>
           </View>
         </Button>
+        <Spacer space={40} />
+        <View style={{ paddingHorizontal: 24 }}>
+          <SingleLineInput
+            value={title}
+            onChangeText={setTitle}
+            placeholder='제목을 입력해주세요'
+          />
+          <Spacer space={20} />
+          <MultiLineInput
+            value={content}
+            onChangeText={setContent}
+            placeholder='있었던 일을 알려주세요.'
+          />
+        </View>
+        <Spacer space={40} />
+        <View style={{ paddingHorizontal: 24 }}>
+          <Button onPress={onPressSave}>
+            <View style={{
+              paddingVertical: 16,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: canSave ? 'black' : 'lightgray',
+              borderRadius: 4,
+            }}>
+              <Typography fontSize={20} color={canSave ? 'white' : 'gray'}>등록하기</Typography>
+            </View>
+          </Button>
+        </View>
       </ScrollView>
       <DateTimePicker
         isVisible={visibleDatePicker}
