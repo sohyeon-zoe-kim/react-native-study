@@ -26,7 +26,6 @@ export const SettingScreen = () => {
     const result = await runImagePickAndUpload()
 
     if (result.length >= 1) {
-      console.log(result)
       const userDB = `/users/${userInfo.uid}`
       setUserInfo(prevState => {
         return {
@@ -45,8 +44,12 @@ export const SettingScreen = () => {
     navigation.navigate('AddPassword')
   }, [])
 
-  const onPressClearPassword = useCallback(() => {
-  },[])
+  const onPressClearPassword = useCallback(async () => {
+    const userDB = `/users/${userInfo.uid}`
+    await database().ref(userDB).update({
+      password: '',
+    })
+  },[userInfo])
 
   return (
     <View style={{ flex: 1 }}>
