@@ -15,6 +15,7 @@ export const SplashView = (props) => {
   const [userInfo, setUserInfo] = useRecoilState(stateUserInfo)
   const runGetDiaryList = useGetDiaryList()
   const [showPasswordInput, setShowPasswordInput] = useState(false)
+  const [passwordError, setPasswordError] = useState(null)
 
   const signinUserIdentify = useCallback(async (idToken) => {
     setLoading(true)
@@ -78,19 +79,28 @@ export const SplashView = (props) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       {showLoginButton && <GoogleSigninButton onPress={onPressGoogleLogin} />}
-      {showPasswordInput && <PasswordInputBox value={inputPassword} onChangeText={async(text) => {
-        setInputPassword(text)
-        if (text.length === 4) {
-          if (userInfo.password === text) {
-            const now = new Date().toISOString()
-            const userDB = `/users/${userInfo.uid}/`
-            await database().ref (userDB).update({
-              lastLoginAt: now,
-            })
-            props.onFinishLoad()
-          }
-        }
-      }} />}
+      {showPasswordInput &&
+        <PasswordInputBox
+          value={inputPassword}
+          errorMessage={passwordError}
+          onChangeText={async(text) => {
+            setInputPassword(text)
+            if (text.length === 4) {
+              if (userInfo.password === text) {
+                const now = new Date().toISOString()
+                const userDB = `/users/${userInfo.uid}/`
+                await database().ref (userDB).update({
+                  lastLoginAt: now,
+                })
+                props.onFinishLoad()
+              } else {
+                setInputPassword('')
+                setPasswordError('비밀번호가 다릅니다.')
+              }
+            }
+          }}
+        />
+      }
       {loading && (
         <ActivityIndicator />
       )}

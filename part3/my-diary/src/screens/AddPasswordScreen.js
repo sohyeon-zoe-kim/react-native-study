@@ -17,6 +17,7 @@ export const AddPasswordScreen = () => {
   const [firstInput, setFirstInput] = useState('')
   const [secondInput, setSecondInput] = useState('')
   const [isInputFirst, setIsInputFirst] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const userInfo = useRecoilValue(stateUserInfo)
   const onCompleteInputPassword = useCallback(async () => {
@@ -33,7 +34,12 @@ export const AddPasswordScreen = () => {
   useEffect(() => {
     if (firstInput.length < 4) return
     if (secondInput.length < 4) return
-    if (firstInput === secondInput) onCompleteInputPassword()
+    if (firstInput === secondInput) {
+      onCompleteInputPassword()
+    } else {
+      setErrorMessage('비밀번호가 다릅니다.')
+      setSecondInput('')
+    }
   }, [firstInput, secondInput])
 
   return (
@@ -59,6 +65,7 @@ export const AddPasswordScreen = () => {
               setSecondInput(text)
             }
           }}
+          errorMessage={errorMessage}
         />
       </View>
     </View>
