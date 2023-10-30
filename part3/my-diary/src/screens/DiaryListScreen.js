@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react"
+import { useRecoilValue } from 'recoil'
 import { FlatList, View, useWindowDimensions } from "react-native"
 import { Header } from "../components/header/Header"
 import { useNavigation } from "@react-navigation/native"
@@ -8,37 +9,13 @@ import { RemoteImage } from "../components/atoms/RemoteImage"
 import { Icon } from "../components/atoms/Icon"
 import { Spacer } from "../components/atoms/Spacer"
 import { Typography } from "../components/atoms/Typography"
+import { stateDiaryList } from '../states/stateDiaryList'
 
 export const DiartyListScreen = () => {
   const navigation = useNavigation()
   const safeAreaInset = useSafeAreaInsets()
   const { width } = useWindowDimensions()
-  const [data, setData] = useState([
-    {
-      id: 0,
-      title: 'TITLE_01',
-      content: 'CONTENT_01',
-      createdAt: '2023-10-29',
-      updatedAt: '2023-10-29',
-      imageUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png'
-    },
-    {
-      id: 1,
-      title: 'TITLE_02',
-      content: 'CONTENT_02',
-      createdAt: '2023-10-29',
-      updatedAt: '2023-10-29',
-      imageUrl: null
-    },
-    {
-      id: 3,
-      title: 'TITLE_03',
-      content: 'CONTENT_03',
-      createdAt: '2023-10-29',
-      updatedAt: '2023-10-29',
-      imageUrl: 'https://docs.expo.dev/static/images/tutorial/background-image.png'
-    },
-  ])
+  const data = useRecoilValue(stateDiaryList)
   
   const onPressSettings = useCallback(() => {
     navigation.navigate('Setting')
@@ -69,10 +46,10 @@ export const DiartyListScreen = () => {
                 navigation.navigate('DiaryDetail', item)
               }}>
                 <View style={{ paddingVertical: 12}}>
-                  {item.imageUrl !== null && (
+                  {item.photoUrl !== null && (
                     <>
                       <RemoteImage
-                        url={item.imageUrl}
+                        url={item.photoUrl}
                         width={width - 24*2}
                         height={(width - 24*2) * 0.5}
                         style={{ borderRadius: 8 }}

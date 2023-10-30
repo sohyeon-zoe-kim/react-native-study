@@ -5,10 +5,12 @@ import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import { useSetRecoilState } from "recoil"
 import { stateUserInfo } from "./states/stateUserInfo"
+import { useGetDiaryList } from "./hooks/useGetDiaryList"
 
 export const SplashView = (props) => {
   const [showLoginButton, setShowLoginButton] = useState(false)
   const setUserInfo = useSetRecoilState(stateUserInfo)
+  const runGetDiaryList = useGetDiaryList()
 
   const signinUserIdentify = useCallback(async (idToken) => {
     const googleCredentials = auth.GoogleAuthProvider.credential(idToken)
@@ -37,8 +39,10 @@ export const SplashView = (props) => {
     const userInfo = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
 
     setUserInfo(userInfo)
-    props.onFinishLoad()
 
+    await runGetDiaryList(userInfo)
+
+    props.onFinishLoad()
   }, [])
 
   const onPressGoogleLogin = useCallback(async () => {

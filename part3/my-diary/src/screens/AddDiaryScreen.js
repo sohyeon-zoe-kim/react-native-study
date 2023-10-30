@@ -10,6 +10,7 @@ import { Typography } from "../components/atoms/Typography"
 import { SingleLineInput } from "../components/atoms/SingleLineInput"
 import { MultiLineInput } from "../components/atoms/MultiLineInput"
 import DateTimePicker from 'react-native-modal-datetime-picker'
+import { useCreateDiary } from "../hooks/useCreateDiary"
 
 export const AddDiaryScreen = () => {
   const { width } = useWindowDimensions()
@@ -44,6 +45,7 @@ export const AddDiaryScreen = () => {
     setVisibleDatePicker(true)
   }, [])
 
+  const runCreateDiary = useCreateDiary()
   const canSave = useMemo(() => {
     if (selectedDate === null) return false
     if (title === '') return false
@@ -51,8 +53,9 @@ export const AddDiaryScreen = () => {
     return true
   }, [selectedDate, title, content])
   const onPressSave = useCallback(() => {
-
-  }, [])
+    if (!canSave) return
+    runCreateDiary(selectedPhotoUrl, selectedDate, title, content)
+  }, [canSave, selectedPhotoUrl, selectedDate, title, content])
 
   return (
     <View style={{ flex: 1 }}>
