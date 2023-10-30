@@ -8,8 +8,10 @@ import { Spacer } from "../components/atoms/Spacer"
 import { Button } from "../components/atoms/Button"
 import { RemoteImage } from "../components/atoms/RemoteImage"
 import { Typography } from "../components/atoms/Typography"
+import { Divider } from '../components/atoms/Divider'
 import { useImagePickAndUpload } from "../hooks/useImagePickAndUpload"
 import database from '@react-native-firebase/database'
+import { Icon } from "../components/atoms/Icon"
 
 export const SettingScreen = () => {
   const navigation = useNavigation()
@@ -39,6 +41,13 @@ export const SettingScreen = () => {
     }
   }, [userInfo, runImagePickAndUpload])
 
+  const onPressPassword = useCallback(() => {
+    navigation.navigate('AddPassword')
+  }, [])
+
+  const onPressClearPassword = useCallback(() => {
+  },[])
+
   return (
     <View style={{ flex: 1 }}>
       <Header>
@@ -61,6 +70,34 @@ export const SettingScreen = () => {
           <Spacer space={20} />
           <Typography fontSize={20}>{userInfo.name}</Typography>
         </View>
+        <Spacer space={20} />
+        <Divider />
+        <Spacer space={20} />
+        <Button onPress={onPressPassword}>
+          <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingVertical: 12,
+              paddingHorizontal: 24
+            }}
+          >
+            <Typography fontSize={16}>비밀번호 추가</Typography>
+            <Icon name='chevron-forward-outline' size={16} />
+          </View>
+        </Button>
+        <Button onPress={onPressClearPassword}>
+          <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingVertical: 12,
+              paddingHorizontal: 24
+            }}
+          >
+            <Typography fontSize={16}>비밀번호 초기화</Typography>
+          </View>
+        </Button>
       </View>
     </View>
   )
