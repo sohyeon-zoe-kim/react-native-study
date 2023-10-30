@@ -55,6 +55,7 @@ export const AddDiaryScreen = () => {
   const onPressSave = useCallback(() => {
     if (!canSave) return
     runCreateDiary(selectedPhotoUrl, selectedDate, title, content)
+    navigation.goBack()
   }, [canSave, selectedPhotoUrl, selectedDate, title, content])
 
   return (

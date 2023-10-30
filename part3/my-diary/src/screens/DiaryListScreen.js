@@ -43,7 +43,7 @@ export const DiartyListScreen = () => {
           renderItem={({ item }) => {
             return (
               <Button onPress={() => {
-                navigation.navigate('DiaryDetail', item)
+                navigation.navigate('DiaryDetail', {item})
               }}>
                 <View style={{ paddingVertical: 12}}>
                   {item.photoUrl !== null && (
