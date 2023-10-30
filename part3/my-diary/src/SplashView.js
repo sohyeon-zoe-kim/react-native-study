@@ -17,8 +17,6 @@ export const SplashView = (props) => {
     const userDBRefKey = `/users/${result.user.uid}`
     const userResult = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
 
-    console.log(userResult)
-
     const now = new Date().toISOString()
 
     if (userResult === null) {
@@ -37,8 +35,6 @@ export const SplashView = (props) => {
     }
 
     const userInfo = await database().ref(userDBRefKey).once('value').then((snapshot) => snapshot.val())
-
-    console.log('userInfo', userInfo)
 
     setUserInfo(userInfo)
     props.onFinishLoad()
