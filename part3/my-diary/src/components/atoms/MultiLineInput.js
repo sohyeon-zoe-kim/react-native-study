@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { TextInput, View } from 'react-native'
 
-export const SingleLineInput = (props) => {
+export const MultiLineInput = (props) => {
   const [focused, setFocused]  = useState(false)
 
   return (
@@ -21,7 +21,11 @@ export const SingleLineInput = (props) => {
         value={props.value}
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
-        style={[props.style, { fontSize: props.fontSize ?? 20 }]}
+        multiline
+        style={[props.style, {
+          fontSize: props.fontSize ?? 20 ,
+          height: props.height ?? 200
+        }]}
         onFocus={() => {
           setFocused(true)
         }}
