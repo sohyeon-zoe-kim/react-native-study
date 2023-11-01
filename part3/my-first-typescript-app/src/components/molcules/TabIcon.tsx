@@ -1,13 +1,17 @@
 import React from "react"
 import { View } from "react-native"
 import { Badge } from "../atoms/Badge"
-import { Icon } from "../atoms/Icon"
+import { Icon, iconName } from "../atoms/Icon"
 
-export const TabIcon = (props) => {
+export const TabIcon: React.FC<{
+  visibleBadge: boolean,
+  iconName: iconName,
+  iconColor: string
+}> = (props) => {
   if (props.visibleBadge) {
     return (
       <View>
-        <Badge fontSize={10}>
+        <Badge>
           <Icon
             name={props.iconName}
             size={20}
