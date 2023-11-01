@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ImageProps, StyleProp, TextInput, View } from 'react-native'
+import { TextInput, View } from 'react-native'
 
 export const SingleLineInput: React.FC<{
   value: string,
