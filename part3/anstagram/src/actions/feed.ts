@@ -7,6 +7,10 @@ export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const
 export const GET_FEED_LIST_FAILURE = 'GET_FEED_LIST_FAILURE' as const
 
+export const CREATED_FEED_REQUEST = 'CREATED_FEED_REQUEST' as const
+export const CREATED_FEED_SUCCESS = 'CREATED_FEED_SUCCESS' as const
+export const CREATED_FEED_FAILURE = 'CREATED_FEED_FAILURE' as const
+
 export const getFeedListRequest = () => {
   return {
     type: GET_FEED_LIST_REQUEST
@@ -22,6 +26,24 @@ export const getFeedListSuccess = (list: FeedInfo[]) => {
 export const getFeedListFailure = () => {
   return {
     type: GET_FEED_LIST_FAILURE
+  }
+}
+
+export const createFeedRequest = () => {
+  return {
+    type: CREATED_FEED_REQUEST
+  }
+}
+
+export const createFeedSuccess = (item: FeedInfo) => {
+  return {
+    type: CREATED_FEED_SUCCESS,
+    item
+  }
+}
+export const createFeedFailure = () => {
+  return {
+    type: CREATED_FEED_FAILURE
   }
 }
 
@@ -67,8 +89,32 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
   ]))
 }
 
+export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' | 'createdAt'>): TypeFeedListThunkAction => async (dispatch, getState) => {
+  dispatch(createFeedRequest())
+
+  const createdAt = new Date().getTime()
+  const userInfo = getState().userInfo.userInfo
+
+  sleep(200)
+
+  dispatch(createFeedSuccess({
+    id: 'ID_010',
+    content: item.content,
+    writer: {
+      name: userInfo?.name ?? 'unknown',
+      uid: userInfo?.uid ?? 'unknown',
+    },
+    imageUrl: item.imageUrl,
+    likeHistory: [],
+    createdAt: createdAt
+  }))
+}
+
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>
 export type TypeFeedListActions =
   | ReturnType<typeof getFeedListRequest>
   | ReturnType<typeof getFeedListSuccess>
   | ReturnType<typeof getFeedListFailure>
+  | ReturnType<typeof createFeedRequest>
+  | ReturnType<typeof createFeedSuccess>
+  | ReturnType<typeof createFeedFailure>
