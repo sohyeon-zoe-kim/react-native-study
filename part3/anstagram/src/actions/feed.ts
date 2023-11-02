@@ -11,6 +11,10 @@ export const CREATED_FEED_REQUEST = 'CREATED_FEED_REQUEST' as const
 export const CREATED_FEED_SUCCESS = 'CREATED_FEED_SUCCESS' as const
 export const CREATED_FEED_FAILURE = 'CREATED_FEED_FAILURE' as const
 
+export const FAVORITE_FEED_REQUEST = 'FAVORITE_FEED_REQUEST' as const
+export const FAVORITE_FEED_SUCCESS = 'FAVORITE_FEED_SUCCESS' as const
+export const FAVORITE_FEED_FAILURE = 'FAVORITE_FEED_FAILURE' as const
+
 export const getFeedListRequest = () => {
   return {
     type: GET_FEED_LIST_REQUEST
@@ -41,9 +45,28 @@ export const createFeedSuccess = (item: FeedInfo) => {
     item
   }
 }
+
 export const createFeedFailure = () => {
   return {
     type: CREATED_FEED_FAILURE
+  }
+}
+
+export const favoriteFeedRequest = () => {
+  return {
+    type: FAVORITE_FEED_REQUEST
+  }
+}
+
+export const favoriteFeedSuccess = (feedId: FeedInfo['id']) => {
+  return {
+    type: FAVORITE_FEED_SUCCESS,
+    feedId
+  }
+}
+export const favoriteFeedFailure = () => {
+  return {
+    type: FAVORITE_FEED_FAILURE
   }
 }
 
@@ -95,7 +118,7 @@ export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' 
   const createdAt = new Date().getTime()
   const userInfo = getState().userInfo.userInfo
 
-  sleep(200)
+  sleep(500)
 
   dispatch(createFeedSuccess({
     id: 'ID_010',
@@ -110,6 +133,12 @@ export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' 
   }))
 }
 
+export const favoriteFeed = (item: FeedInfo): TypeFeedListThunkAction => async (dispatch) => {
+  dispatch(favoriteFeedRequest())
+  sleep(500)
+  dispatch(favoriteFeedSuccess(item.id))
+}
+
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>
 export type TypeFeedListActions =
   | ReturnType<typeof getFeedListRequest>
@@ -118,3 +147,6 @@ export type TypeFeedListActions =
   | ReturnType<typeof createFeedRequest>
   | ReturnType<typeof createFeedSuccess>
   | ReturnType<typeof createFeedFailure>
+  | ReturnType<typeof favoriteFeedRequest>
+  | ReturnType<typeof favoriteFeedSuccess>
+  | ReturnType<typeof favoriteFeedFailure>
