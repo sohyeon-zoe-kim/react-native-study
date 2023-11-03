@@ -22,7 +22,7 @@ export const userInfoReducer = (state: TypeUserInfoReducer = defaultUserInfoStat
     case GET_MY_FEED_SUCCESS:
       return {
         ...state,
-        myFeedList: action
+        myFeedList: action.list
       }
   }
 
