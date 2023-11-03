@@ -77,44 +77,15 @@ export const favoriteFeedFailure = () => {
 
 export const getFeedList = (): TypeFeedThunkAction => async (dispatch) => {
   dispatch(getFeedListRequest())
-
-  await sleep(500)
-
-  dispatch(getFeedListSuccess([
-    {
-      id: 'ID_01',
-      content: 'CONTENT_01',
-      writer: {
-        name: 'WRITER_NAME_01',
-        uid: 'WRITER_UID_01',
-      },
-      imageUrl: 'https://cdn.imweb.me/upload/S20200106a105fd03f4b57/4ff941d818967.jpg',
-      likeHistory: ['UID_01', 'UID_02', 'UID_03'],
-      createdAt: new Date().getTime()
-    },
-    {
-      id: 'ID_02',
-      content: 'CONTENT_02',
-      writer: {
-        name: 'WRITER_NAME_02',
-        uid: 'WRITER_UID_02',
-      },
-      imageUrl: 'https://www.rollingstone.co.uk/wp-content/uploads/sites/2/2023/02/The_pyramid_stage_during_Glastonbury_Festival_2019_01.jpg',
-      likeHistory: ['UID_03'],
-      createdAt: new Date().getTime()
-    },
-    {
-      id: 'ID_03',
-      content: 'CONTENT_03',
-      writer: {
-        name: 'WRITER_NAME_03',
-        uid: 'WRITER_UID_03',
-      },
-      imageUrl: 'https://www.sputnik.kr/article_img/202105/article_1621416137.png',
-      likeHistory: ['UID_01', 'UID_02'],
-      createdAt: new Date().getTime()
-    },
-  ]))
+  const lastFeedList = await database().ref(`/feed`).once('value').then(snapshot => snapshot.val())
+  const result = Object.keys(lastFeedList).map(key => {
+    return {
+      ...lastFeedList[key],
+      id: key,
+      likeHistory: lastFeedList[key].likeHistory ?? []
+    }
+  })
+  dispatch(getFeedListSuccess(result))
 }
 
 export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' | 'createdAt'>): TypeFeedThunkAction => async (dispatch, getState) => {
