@@ -1,8 +1,8 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { sleep } from "../utils/sleep"
 import { TypeRootReducer } from "../store"
-import { FeedInfo } from "../types/FeedInfo"
-import { UserInfo } from "../types/UserInfo"
+import { FeedInfo } from "../@types/FeedInfo"
+import { UserInfo } from "../@types/UserInfo"
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 

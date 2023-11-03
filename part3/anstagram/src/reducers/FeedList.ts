@@ -1,5 +1,5 @@
 import { CREATED_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, GET_FEED_LIST_SUCCESS, TypeFeedActions } from "../actions/feed"
-import { FeedInfo } from "../types/FeedInfo"
+import { FeedInfo } from "../@types/FeedInfo"
 
 export type TypeFeedListReducer = {
   list: FeedInfo[]

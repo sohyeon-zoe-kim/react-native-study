@@ -4,7 +4,7 @@ import { BottomTabNaviation } from "./BottomTabNavigation"
 import { AddFeedScreen } from "../screens/AddFeedScreen"
 import { FeedListScreen } from "../screens/FeedListScreen"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
-import { FeedInfo } from "../types/FeedInfo"
+import { FeedInfo } from "../@types/FeedInfo"
 
 export type RootStackparamList = {
   BottomTab: undefined,

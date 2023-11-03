@@ -1,5 +1,5 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk"
-import { FeedInfo } from "../types/FeedInfo"
+import { FeedInfo } from "../@types/FeedInfo"
 import { sleep } from "../utils/sleep"
 import { TypeRootReducer } from "../store"
 import storage from '@react-native-firebase/storage'

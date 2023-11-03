@@ -1,6 +1,6 @@
 import { GET_MY_FEED_SUCCESS, SET_USER_INFO, TypeUserActions } from "../actions/user"
-import { FeedInfo } from "../types/FeedInfo"
-import { UserInfo } from "../types/UserInfo"
+import { FeedInfo } from "../@types/FeedInfo"
+import { UserInfo } from "../@types/UserInfo"
 
 export type TypeUserInfoReducer = {
   userInfo: UserInfo | null,
