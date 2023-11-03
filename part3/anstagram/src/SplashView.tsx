@@ -14,6 +14,7 @@ export const SplashView: React.FC<{
     try {
       const { idToken } = await GoogleSignin.signInSilently()
       if (idToken !== null) {
+        await dispatch(signIn(idToken))
         props.onFinishLoad()
       }
     } catch (err) {

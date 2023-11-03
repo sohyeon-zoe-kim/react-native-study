@@ -2,6 +2,9 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { FeedInfo } from "../types/FeedInfo"
 import { sleep } from "../utils/sleep"
 import { TypeRootReducer } from "../store"
+import storage from '@react-native-firebase/storage'
+import database from '@react-native-firebase/database'
+import { Platform } from "react-native"
 
 export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const
@@ -119,20 +122,46 @@ export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' 
 
   const createdAt = new Date().getTime()
   const userInfo = getState().userInfo.userInfo
+  const pickPhotoUrlList = item.imageUrl.split('/')
+  const pickPhotoFileName = pickPhotoUrlList[pickPhotoUrlList.length - 1]
 
-  sleep(500)
+  const putFileUrl = await storage().ref(pickPhotoFileName)
+    .putFile(Platform.OS === 'ios' ? item.imageUrl.replace('file://', '') : item.imageUrl)
+    .then(result => storage().ref(result.metadata.fullPath).getDownloadURL())
 
-  dispatch(createFeedSuccess({
-    id: 'ID_010',
+  const feedDB = await database().ref(`/feed`)
+  const saveItem: Omit<FeedInfo, 'id'> = {
     content: item.content,
     writer: {
-      name: userInfo?.name ?? 'unknown',
-      uid: userInfo?.uid ?? 'unknown',
+      name: userInfo?.name || 'Unknown',
+      uid: userInfo?.uid || 'Unknown',
     },
-    imageUrl: item.imageUrl,
+    imageUrl: putFileUrl,
     likeHistory: [],
     createdAt: createdAt
-  }))
+  }
+
+  await feedDB.push().set({
+    ...saveItem,
+  })
+
+  const lastFeedList = await feedDB.once('value').then(snapshot => snapshot.val())
+  Object.keys(lastFeedList).forEach(key => {
+    const item = lastFeedList[key]
+
+    if (item.createdAt === createdAt && putFileUrl === item.imageUrl) {
+      dispatch(
+        createFeedSuccess({
+          id: key,
+          content: item.content,
+          writer: item.writer,
+          imageUrl: item.imageUrl,
+          likeHistory: item.likeHistory ?? [],
+          createdAt
+        })
+      )
+    }
+  })
 }
 
 export const favoriteFeed = (item: FeedInfo): TypeFeedThunkAction => async (dispatch, getState) => {

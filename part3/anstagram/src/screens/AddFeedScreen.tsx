@@ -10,10 +10,13 @@ import { MultiLineInput } from "../components/atoms/MultiLineInput"
 import { Spacer } from "../components/atoms/Spacer"
 import { Typography } from "../components/atoms/Typography"
 import * as ImagePicker from 'expo-image-picker'
+import { useDispatch } from "react-redux"
+import { TypeFeedDispatch, createFeed } from "../actions/feed"
 
 export const AddFeedScreen: React.FC = () => {
   const rootNavigation = useRootNavigation<'AddFeed'>()
   const safeAreaInstes = useSafeAreaInsets()
+  const dispatch = useDispatch<TypeFeedDispatch>()
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null)
   const [inputMessage, setInputMessage] = useState<string>('')
 
@@ -40,8 +43,17 @@ export const AddFeedScreen: React.FC = () => {
     setSelectedPhoto(result.assets[0].uri)
   }, [])
 
-  const onPressSave = useCallback(() => {
+  const onPressSave = useCallback(async () => {
     if (!canSave) return
+    if (selectedPhoto === null) return
+
+    await dispatch(
+      createFeed({
+        imageUrl: selectedPhoto,
+        content: inputMessage
+      })
+    )
+    rootNavigation.goBack()
   }, [canSave, selectedPhoto, inputMessage])
 
   return (
