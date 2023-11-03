@@ -58,10 +58,12 @@ export const favoriteFeedRequest = () => {
   }
 }
 
-export const favoriteFeedSuccess = (feedId: FeedInfo['id']) => {
+export const favoriteFeedSuccess = (feedId: FeedInfo['id'], myId: string, action: 'add' | 'del') => {
   return {
     type: FAVORITE_FEED_SUCCESS,
-    feedId
+    feedId,
+    myId,
+    action
   }
 }
 export const favoriteFeedFailure = () => {
@@ -133,10 +135,24 @@ export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' 
   }))
 }
 
-export const favoriteFeed = (item: FeedInfo): TypeFeedListThunkAction => async (dispatch) => {
+export const favoriteFeed = (item: FeedInfo): TypeFeedListThunkAction => async (dispatch, getState) => {
   dispatch(favoriteFeedRequest())
-  sleep(500)
-  dispatch(favoriteFeedSuccess(item.id))
+
+  const myId = getState().userInfo.userInfo?.uid || null
+
+  if (myId === null) {
+    dispatch(favoriteFeedFailure())
+    return
+  }
+
+  sleep(1000)
+  const hasMyId = item.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0
+
+  if (hasMyId) {
+    dispatch(favoriteFeedSuccess(item.id, myId, 'del'))
+  } else {
+    dispatch(favoriteFeedSuccess(item.id, myId, 'add'))
+  }
 }
 
 export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>
