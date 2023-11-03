@@ -35,7 +35,7 @@ export const HomeScreen: React.FC = () => {
           )
         }}
         ItemSeparatorComponent={() => (
-          < Spacer space={24} />
+          <Spacer space={24} />
         )}
       />
     </View>
