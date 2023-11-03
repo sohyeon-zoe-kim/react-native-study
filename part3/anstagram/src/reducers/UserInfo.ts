@@ -12,7 +12,7 @@ const defaultUserInfoState: TypeUserInfoReducer = {
   myFeedList: []
 }
 
-export const UserInfoReducer = (state: TypeUserInfoReducer = defaultUserInfoState, action: TypeUserInfoActions) => {
+export const userInfoReducer = (state: TypeUserInfoReducer = defaultUserInfoState, action: TypeUserInfoActions) => {
   return {
     ...state
   }

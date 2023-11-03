@@ -9,7 +9,7 @@ const defaultFeedListState: TypeFeedListReducer = {
   list: []
 }
 
-export const FeedListReducer = (state: TypeFeedListReducer = defaultFeedListState, action: TypeFeedListActions) => {
+export const feedListReducer = (state: TypeFeedListReducer = defaultFeedListState, action: TypeFeedListActions) => {
   switch (action.type) {
     case GET_FEED_LIST_SUCCESS:
       return {
