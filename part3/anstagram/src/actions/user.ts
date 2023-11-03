@@ -35,7 +35,7 @@ export const getMyFeedFailure = () => {
   }
 }
 
-export const signIn = (): TypeUserInfoThunkAction => async (dispatch) => {
+export const signIn = (): TypeUserThunkAction => async (dispatch) => {
   await sleep(500)
   dispatch(setUserInfo({
     id: 'TEST_ID',
@@ -45,7 +45,7 @@ export const signIn = (): TypeUserInfoThunkAction => async (dispatch) => {
   }))
 }
 
-export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => {
+export const getMyFeedList = (): TypeUserThunkAction => async (dispatch) => {
   dispatch(getMyFeedRequest())
   await sleep(500)
   dispatch(getMyFeedSuccess([
@@ -74,9 +74,9 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
   ]))
 }
 
-export type TypeUserInfoDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeUserInfoActions>
-export type TypeUserInfoThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeUserInfoActions>
-export type TypeUserInfoActions =
+export type TypeUserDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeUserActions>
+export type TypeUserThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeUserActions>
+export type TypeUserActions =
   | ReturnType<typeof setUserInfo>
   | ReturnType<typeof getMyFeedRequest>
   | ReturnType<typeof getMyFeedSuccess>

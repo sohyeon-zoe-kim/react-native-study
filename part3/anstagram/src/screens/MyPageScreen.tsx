@@ -7,12 +7,12 @@ import { Button } from "../components/atoms/Button"
 import { RemoteImage } from "../components/atoms/RemoteImage"
 import { useRootNavigation } from "../navigations/RootStackNavigation"
 import { useDispatch } from "react-redux"
-import { TypeUserInfoDispatch, getMyFeedList } from "../actions/user"
+import { TypeUserDispatch, getMyFeedList } from "../actions/user"
 
 export const MyPageScreen: React.FC = () => {
   const data = useMyFeedList()
   const { width } = useWindowDimensions()
-  const dispatch = useDispatch<TypeUserInfoDispatch>()
+  const dispatch = useDispatch<TypeUserDispatch>()
   const rootNavigation = useRootNavigation()
 
   const photoSize = useMemo(() => {

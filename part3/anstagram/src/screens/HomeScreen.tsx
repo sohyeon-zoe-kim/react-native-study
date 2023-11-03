@@ -4,14 +4,14 @@ import { Header } from "../components/header/Header"
 import { useTotalFeedList } from "../selectors/feed"
 import { FeedListItem } from "../components/FeedListItem"
 import { useDispatch } from "react-redux"
-import { TypeFeedListDispatch, getFeedList } from "../actions/feed"
+import { TypeFeedDispatch, getFeedList } from "../actions/feed"
 import { Spacer } from "../components/atoms/Spacer"
 import { useRootNavigation } from "../navigations/RootStackNavigation"
 
 export const HomeScreen: React.FC = () => {
   const rootNaviagtion = useRootNavigation()
   const feedList = useTotalFeedList()
-  const dispatch = useDispatch<TypeFeedListDispatch>()
+  const dispatch = useDispatch<TypeFeedDispatch>()
   const onPressAddFeed = useCallback(() => {
     rootNaviagtion.navigate('AddFeed')
   }, [])

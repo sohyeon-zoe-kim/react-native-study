@@ -72,7 +72,7 @@ export const favoriteFeedFailure = () => {
   }
 }
 
-export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
+export const getFeedList = (): TypeFeedThunkAction => async (dispatch) => {
   dispatch(getFeedListRequest())
 
   await sleep(500)
@@ -114,7 +114,7 @@ export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
   ]))
 }
 
-export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' | 'createdAt'>): TypeFeedListThunkAction => async (dispatch, getState) => {
+export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' | 'createdAt'>): TypeFeedThunkAction => async (dispatch, getState) => {
   dispatch(createFeedRequest())
 
   const createdAt = new Date().getTime()
@@ -135,7 +135,7 @@ export const createFeed = (item: Omit<FeedInfo, 'id' | 'writer' | 'likeHistory' 
   }))
 }
 
-export const favoriteFeed = (item: FeedInfo): TypeFeedListThunkAction => async (dispatch, getState) => {
+export const favoriteFeed = (item: FeedInfo): TypeFeedThunkAction => async (dispatch, getState) => {
   dispatch(favoriteFeedRequest())
 
   const myId = getState().userInfo.userInfo?.uid || null
@@ -155,9 +155,9 @@ export const favoriteFeed = (item: FeedInfo): TypeFeedListThunkAction => async (
   }
 }
 
-export type TypeFeedListDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeFeedListActions>
-export type TypeFeedListThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedListActions>
-export type TypeFeedListActions =
+export type TypeFeedDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeFeedActions>
+export type TypeFeedThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeFeedActions>
+export type TypeFeedActions =
   | ReturnType<typeof getFeedListRequest>
   | ReturnType<typeof getFeedListSuccess>
   | ReturnType<typeof getFeedListFailure>

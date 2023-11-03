@@ -1,4 +1,4 @@
-import { GET_MY_FEED_SUCCESS, SET_USER_INFO, TypeUserInfoActions } from "../actions/user"
+import { GET_MY_FEED_SUCCESS, SET_USER_INFO, TypeUserActions } from "../actions/user"
 import { FeedInfo } from "../types/FeedInfo"
 import { UserInfo } from "../types/UserInfo"
 
@@ -12,7 +12,7 @@ const defaultUserInfoState: TypeUserInfoReducer = {
   myFeedList: []
 }
 
-export const userInfoReducer = (state: TypeUserInfoReducer = defaultUserInfoState, action: TypeUserInfoActions) => {
+export const userInfoReducer = (state: TypeUserInfoReducer = defaultUserInfoState, action: TypeUserActions) => {
   switch (action.type) {
     case SET_USER_INFO:
       return {

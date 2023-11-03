@@ -1,4 +1,4 @@
-import { CREATED_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, GET_FEED_LIST_SUCCESS, TypeFeedListActions } from "../actions/feed"
+import { CREATED_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, GET_FEED_LIST_SUCCESS, TypeFeedActions } from "../actions/feed"
 import { FeedInfo } from "../types/FeedInfo"
 
 export type TypeFeedListReducer = {
@@ -9,7 +9,7 @@ const defaultFeedListState: TypeFeedListReducer = {
   list: []
 }
 
-export const feedListReducer = (state: TypeFeedListReducer = defaultFeedListState, action: TypeFeedListActions) => {
+export const feedListReducer = (state: TypeFeedListReducer = defaultFeedListState, action: TypeFeedActions) => {
   switch (action.type) {
     case GET_FEED_LIST_SUCCESS:
       return {
