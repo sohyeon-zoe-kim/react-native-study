@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk"
+import { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { sleep } from "../utils/sleep"
 import { TypeRootReducer } from "../store"
 import { FeedInfo } from "../types/FeedInfo"
@@ -85,6 +85,7 @@ export const getMyFeedList = (): TypeUserInfoThunkAction => async (dispatch) => 
   ]))
 }
 
+export type TypeUserInfoDispatch = ThunkDispatch<TypeRootReducer, undefined, TypeUserInfoActions>
 export type TypeUserInfoThunkAction = ThunkAction<void, TypeRootReducer, undefined, TypeUserInfoActions>
 export type TypeUserInfoActions =
   | ReturnType<typeof setUserInfo>
