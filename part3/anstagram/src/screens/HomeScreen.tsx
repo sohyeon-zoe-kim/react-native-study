@@ -4,7 +4,7 @@ import { Header } from "../components/header/Header"
 import { useTotalFeedList } from "../selectors/feed"
 import { FeedListItem } from "../components/FeedListItem"
 import { useDispatch } from "react-redux"
-import { TypeFeedDispatch, getFeedList } from "../actions/feed"
+import { TypeFeedDispatch, favoriteFeed, getFeedList } from "../actions/feed"
 import { Spacer } from "../components/atoms/Spacer"
 import { useRootNavigation } from "../navigations/RootStackNavigation"
 
@@ -12,6 +12,7 @@ export const HomeScreen: React.FC = () => {
   const rootNaviagtion = useRootNavigation()
   const feedList = useTotalFeedList()
   const dispatch = useDispatch<TypeFeedDispatch>()
+
   const onPressAddFeed = useCallback(() => {
     rootNaviagtion.navigate('AddFeed')
   }, [])
@@ -37,6 +38,9 @@ export const HomeScreen: React.FC = () => {
               likeCount={item.likeHistory.length}
               writer={item.writer.name}
               onPressFeed={() => { console.log('onPressFeed') }}
+              onPressFavorite={() => {
+                dispatch(favoriteFeed(item))
+              }}
             />
           )
         }}
