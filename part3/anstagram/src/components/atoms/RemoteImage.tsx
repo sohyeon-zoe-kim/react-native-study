@@ -1,9 +1,9 @@
 import React from "react"
-import { ImageProps, Image as RNImage, StyleProp } from 'react-native'
+import { ImageStyle, Image as RNImage, StyleProp } from 'react-native'
 
 export const RemoteImage: React.FC<{
   url: string,
-  style?: StyleProp<ImageProps>
+  style?: StyleProp<ImageStyle>
   width: number,
   height: number,
 }> = (props) => {
