@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { View, useWindowDimensions } from "react-native";
+import React, { useCallback, useRef } from "react";
+import { Animated, View, useWindowDimensions } from "react-native";
 import { Button } from "./atoms/Button";
 import { RemoteImage } from "./atoms/RemoteImage";
 import { Icon } from "./atoms/Icon";
@@ -17,10 +17,29 @@ export const FeedListItem: React.FC<{
   onPressFavorite: () => void
 }> = (props) => {
   const { width } = useWindowDimensions()
+  const scaleValue = useRef(new Animated.Value(0)).current
+  const alphaValue = useRef(new Animated.Value(0)).current
+
   const onPressDouobleTap = useCallback(() => {
-    console.log('onPRessDoubleTap')
     props.onPressFavorite()
-  }, [])
+
+    if (props.isLiked) {
+      return
+    }
+
+    scaleValue.setValue(0)
+    alphaValue.setValue(1)
+
+    Animated.timing(scaleValue, {
+      toValue: 2,
+      duration: 300,
+      useNativeDriver: false
+    }).start(() => {
+      setTimeout(() => {
+        alphaValue.setValue(0)
+      }, 200)
+    })
+  }, [scaleValue, alphaValue, props.isLiked])
 
   return (
     <View>
@@ -37,7 +56,9 @@ export const FeedListItem: React.FC<{
             justifyContent: 'center'
           }}
           >
-            <Icon name="heart" size={64} color="red" />
+            <Animated.View style={{ transform: [{ scale: scaleValue }], opacity: alphaValue }}>
+              <Icon name="heart" size={64} color="red" />
+            </Animated.View>
           </View>
         </View>
       </DoubleTabButton>
