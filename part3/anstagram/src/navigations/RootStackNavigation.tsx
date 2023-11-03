@@ -4,17 +4,12 @@ import { BottomTabNaviation } from "./BottomTabNavigation"
 import { AddFeedScreen } from "../screens/AddFeedScreen"
 import { FeedListScreen } from "../screens/FeedListScreen"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
+import { FeedInfo } from "../types/FeedInfo"
 
 export type RootStackparamList = {
   BottomTab: undefined,
   FeedList: {
-    list: {
-      id: string,
-      content: string,
-      writer: string,
-      imageUrl: string,
-      likeCount: number
-    }[]
+    list: FeedInfo[]
   }
   AddFeed: undefined
 }
@@ -37,9 +32,9 @@ export const RootStacknavigation: React.FC = () => {
 }
 
 export const useRootNavigation = <RouteName extends keyof RootStackparamList>() => {
-  return useNavigation<NativeStackNavigationProp<RootStackparamList, RouteName>>
+  return useNavigation<NativeStackNavigationProp<RootStackparamList, RouteName>>()
 }
 
 export const useRootRoute = <RouteName extends keyof RootStackparamList>() => {
-  return useRoute<RouteProp<RootStackparamList, RouteName>>
+  return useRoute<RouteProp<RootStackparamList, RouteName>>()
 }
