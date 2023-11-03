@@ -38,13 +38,6 @@ export const getMyFeedFailure = () => {
 }
 
 export const signIn = (idToken: string): TypeUserThunkAction => async (dispatch) => {
-  // await sleep(500)
-  // dispatch(setUserInfo({
-  //   id: 'TEST_ID',
-  //   uid: 'TEST_UID',
-  //   name: 'TEST_NAME',
-  //   profileImage: 'TEST_PROFILE_IMAGE'
-  // }))
   const googleSigninCredential = auth.GoogleAuthProvider.credential(idToken)
   const signinResult = await auth().signInWithCredential(googleSigninCredential)
 
