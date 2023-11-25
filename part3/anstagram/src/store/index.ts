@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from "redux"
-import { TypeUserInfoReducer, userInfoReducer } from "../reducers/userInfo"
-import { feedListReducer, TypeFeedListReducer } from "../reducers/feedList"
+import { TypeUserInfoReducer, userInfoReducer } from "../reducers/UserInfo"
+import { feedListReducer, TypeFeedListReducer } from "../reducers/FeedList"
 import logger from "redux-logger"
 import thunk from "redux-thunk"
 
